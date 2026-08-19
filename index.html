@@ -32,9 +32,10 @@
     background:var(--bg);
     color:var(--ink);
     font-family:'Inter',sans-serif;
-    display:flex;
-    min-height:100vh;
+    display:block;
   }
+  #workRateApp{display:none;min-height:100vh;}
+  #workRateApp.active{display:flex;}
   h1,h2,h3,.disp{
     font-family:'Barlow Condensed',sans-serif;
     font-weight:700;
@@ -611,9 +612,334 @@
   @media (min-width: 721px){
     .mobile-topbar{display:none;}
   }
+
+
+  /* ---- App switcher ---- */
+  .app-switcher{
+    display:flex;align-items:center;gap:8px;
+    background:var(--sidebar);padding:10px 20px;
+    position:sticky;top:0;z-index:300;
+    box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  }
+  .app-switcher .as-brand{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;
+    color:#fff;margin-right:10px;letter-spacing:0.02em;white-space:nowrap;
+  }
+  .app-switch-btn{
+    padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
+    background:transparent;color:var(--sidebar-ink-dim);font-size:13px;font-weight:500;
+    cursor:pointer;transition:all .12s ease;white-space:nowrap;
+  }
+  .app-switch-btn:hover{color:#fff;border-color:rgba(255,255,255,0.4);}
+  .app-switch-btn.active{background:var(--rust);border-color:var(--rust);color:#fff;}
+  @media (max-width: 720px){
+    .app-switcher{padding:8px 12px;gap:6px;}
+    .app-switcher .as-brand{display:none;}
+    .app-switch-btn{padding:7px 12px;font-size:12.5px;flex:1;text-align:center;}
+  }
+
+  /* ---- Chain tool (scoped) ---- */
+#chainApp * {box-sizing:border-box;}
+  #chainApp {margin:0;padding:0;}
+  #chainApp {
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    display:none;
+    min-height:100vh;
+  }
+  #chainApp h1, #chainApp h2, #chainApp h3, #chainApp .disp {
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    letter-spacing:0.01em;
+  }
+  #chainApp .mono {font-family:'JetBrains Mono',monospace;}
+  #chainApp button {font-family:'Inter',sans-serif;}
+
+  /* ---- Main ---- */
+  #chainApp.active{display:block;}
+  #chainApp .main {margin:0 auto;padding:32px 24px 60px;max-width:920px;transition:padding-bottom .15s ease;}
+  #chainApp .main.has-bottom-bar {padding-bottom:110px;}
+  @media (max-width: 720px){
+    #chainApp .main.has-bottom-bar {padding-bottom:150px;}
+  }
+  #chainApp .topbar {display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+  #chainApp .topbar h1 {font-size:30px;margin:0;color:var(--ink);}
+  #chainApp .topbar .cat-tag {
+    font-size:12px;
+    color:var(--rust-dark);
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.04em;
+  }
+  #chainApp .help-btn {
+    width:30px;height:30px;border-radius:50%;
+    border:1.5px solid var(--line-strong);background:var(--panel);
+    color:var(--ink-soft);font-weight:700;font-size:14px;cursor:pointer;
+    flex-shrink:0;margin-left:auto;
+  }
+  #chainApp .help-btn:hover {border-color:var(--rust);color:var(--rust-dark);}
+
+  #chainApp .tab-row {display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+  #chainApp .tab-row.sub {margin-bottom:16px;}
+  #chainApp .tab-chip {
+    display:flex;align-items:center;gap:6px;
+    padding:7px 12px;border-radius:20px;border:1px solid var(--line-strong);
+    background:var(--panel);cursor:pointer;font-size:13px;color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  #chainApp .tab-chip:hover {border-color:var(--rust);}
+  #chainApp .tab-chip.active {background:var(--ink);border-color:var(--ink);color:#fff;}
+  #chainApp #ct-typeTabs .tab-chip {font-weight:500;}
+  #chainApp #ct-typeTabs .tab-chip.active {background:var(--rust);border-color:var(--rust);color:#fff;}
+
+  #chainApp .filter-toggle-btn {
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 4px;margin-bottom:8px;
+    border:none;background:transparent;color:var(--ink-soft);
+    font-size:12.5px;cursor:pointer;font-weight:500;
+  }
+  #chainApp .filter-toggle-btn:hover {color:var(--rust-dark);}
+  #chainApp .filter-toggle-btn .ft-arrow {font-size:9px;transition:transform .15s ease;color:var(--ink-faint);}
+  #chainApp .filter-toggle-btn.open .ft-arrow {transform:rotate(180deg);}
+  #chainApp .filter-count {
+    font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+    background:var(--rust);color:#fff;padding:1px 6px;border-radius:10px;
+  }
+  #chainApp .filter-panel {
+    display:none;
+    padding:12px 14px;margin-bottom:10px;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  }
+  #chainApp .filter-panel.open {display:block;}
+  #chainApp .filter-panel .tab-row:last-child {margin-bottom:0;}
+  #chainApp .tab-row.sub .tab-chip {background:var(--steel-tint);border-color:transparent;color:var(--steel);font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 11px;}
+  #chainApp .tab-row.sub .tab-chip.active {background:var(--steel);color:#fff;}
+
+  #chainApp .search-row {display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  #chainApp .search-wrap {
+    display:flex;align-items:center;gap:8px;
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    border-radius:8px;
+    padding:0 12px;
+    height:42px;
+    flex:1;
+  }
+  #chainApp .search-wrap input {
+    border:none;outline:none;flex:1;height:100%;
+    font-family:'Inter',sans-serif;font-size:14px;background:transparent;color:var(--ink);
+  }
+  #chainApp .search-wrap input::placeholder {color:var(--ink-faint);}
+  #chainApp .search-icon {color:var(--ink-faint);font-size:15px;}
+
+  #chainApp .result-count {font-size:12px;color:var(--ink-soft);margin:0 0 14px 2px;}
+
+  #chainApp .cards {display:flex;flex-direction:column;gap:12px;}
+  #chainApp .card {
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    cursor:pointer;
+    transition:border-color .12s ease;
+    position:relative;
+  }
+  #chainApp .card:hover {border-color:var(--line-strong);}
+  #chainApp .card.open {border-color:var(--rust);}
+
+  #chainApp .card-head {display:flex;justify-content:space-between;align-items:flex-start;gap:16px;}
+  #chainApp .card-title {font-size:16px;font-weight:600;margin:0 0 6px;color:var(--ink);}
+  #chainApp .card-title .prodno {font-size:12px;font-weight:500;color:var(--ink-faint);font-family:'JetBrains Mono',monospace;display:block;margin-top:1px;}
+  #chainApp .card-meta {display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  #chainApp .status-chip {
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:11px;color:var(--rust-dark);background:var(--rust-tint);
+    padding:2px 8px;border-radius:20px;font-weight:500;
+  }
+  #chainApp .status-chip.edited {color:var(--steel);background:var(--steel-tint);}
+  #chainApp .cat-chip {
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:11px;color:#3C3489;background:#EEEDFE;
+    padding:2px 8px;border-radius:20px;font-weight:500;
+  }
+  #chainApp .meta-chip {
+    font-size:11.5px;
+    color:var(--ink-soft);
+    background:var(--bg);
+    border:1px solid var(--line);
+    padding:2px 8px;
+    border-radius:20px;
+  }
+  #chainApp .meta-chip.warn {color:var(--rust-dark);background:var(--rust-tint);border-color:transparent;}
+  #chainApp .card-right {flex-shrink:0;text-align:right;display:flex;align-items:center;height:100%;}
+  #chainApp .card-right .chev {
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:var(--ink-soft);background:var(--bg);
+    border:1px solid var(--line);
+    transition:transform .15s ease, color .15s ease, background .15s ease, border-color .15s ease;
+  }
+  #chainApp .card:hover .card-right .chev {border-color:var(--rust);color:var(--rust-dark);}
+  #chainApp .card.open .card-right .chev {transform:rotate(90deg);color:#fff;background:var(--rust);border-color:var(--rust);}
+
+  #chainApp .card-detail {
+    display:none;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--line-strong);
+  }
+  #chainApp .card.open .card-detail {display:block;}
+
+  #chainApp .detail-block {margin-bottom:12px;}
+  #chainApp .detail-label {font-size:10.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-faint);margin:0 0 6px;}
+
+  #chainApp .part-row {
+    display:flex;align-items:center;gap:10px;
+    background:var(--bg);border:1.5px solid var(--line);border-radius:8px;
+    padding:10px 12px;margin-bottom:6px;
+    cursor:pointer;transition:background .12s ease, border-color .12s ease;
+  }
+  #chainApp .part-row:hover {border-color:var(--line-strong);}
+  #chainApp .part-row.selected {background:var(--rust-tint);border-color:var(--rust);}
+  #chainApp .part-row.unavailable {cursor:default;opacity:0.55;}
+  #chainApp .part-row .check-icon {
+    flex-shrink:0;width:20px;height:20px;border-radius:50%;
+    border:1.5px solid var(--line-strong);background:var(--panel);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:transparent;transition:all .12s ease;
+  }
+  #chainApp .part-row.selected .check-icon {background:var(--rust);border-color:var(--rust);color:#fff;}
+  #chainApp .part-row .p-name {font-size:13px;font-weight:500;color:var(--ink);flex:1;min-width:0;}
+  #chainApp .part-tag {
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    background:var(--steel-tint);
+    color:var(--steel);
+    padding:3px 9px;
+    border-radius:5px;
+    cursor:pointer;
+    display:inline-flex;align-items:center;gap:4px;
+    border:1px solid transparent;
+    transition:background .1s ease;
+    margin-top:3px;
+  }
+  #chainApp .part-tag:hover {background:#D3E1E9;}
+  #chainApp .part-tag.copied {background:var(--steel);color:#fff;}
+  #chainApp .part-tag .copy-icon {font-size:10px;opacity:0.6;}
+  #chainApp .part-tag.disabled {opacity:0.5;cursor:default;pointer-events:none;}
+  #chainApp .p-price {font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:var(--ink);flex-shrink:0;white-space:nowrap;}
+  #chainApp .p-price.inquiry {font-size:12px;font-weight:500;color:var(--ink-faint);}
+
+  #chainApp .price-input {
+    width:96px;flex-shrink:0;text-align:right;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+    border:1.5px solid var(--line-strong);border-radius:6px;padding:5px 8px;
+    color:var(--ink);background:#fff;outline:none;
+  }
+  #chainApp .price-input:focus {border-color:var(--rust);}
+  #chainApp .labor-input {width:100px;}
+  #chainApp .labor-edit-row {display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12.5px;color:var(--ink-soft);gap:10px;}
+  #chainApp .reset-link {font-size:11.5px;color:var(--rust-dark);cursor:pointer;text-decoration:underline;}
+  #chainApp .reset-link:hover {color:var(--rust);}
+  #chainApp .edit-toggle-btn.active {background:var(--steel);border-color:var(--steel);color:#fff;}
+
+  #chainApp .breakdown-row {display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);padding:5px 0;}
+  #chainApp .breakdown-row span:last-child {font-family:'JetBrains Mono',monospace;color:var(--ink);font-weight:600;}
+
+  #chainApp .empty-state {
+    text-align:center;
+    padding:70px 20px;
+    color:var(--ink-faint);
+  }
+  #chainApp .empty-state .disp {font-size:22px;color:var(--ink-soft);margin:0 0 8px;}
+  #chainApp .empty-state p {font-size:13px;margin:0;line-height:1.7;}
+
+  /* ---- Selection bar ---- */
+  #chainApp .selection-bar {
+    position:fixed;left:0;right:0;bottom:0;
+    background:var(--sidebar);color:#fff;
+    padding:14px 32px;
+    display:none;align-items:center;justify-content:space-between;gap:16px;
+    z-index:50;
+    box-shadow:0 -4px 16px rgba(0,0,0,0.15);
+    flex-wrap:wrap;
+  }
+  #chainApp .selection-bar.show {display:flex;}
+  #chainApp .selection-bar .sb-left {font-size:13px;color:var(--sidebar-ink-dim);display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  #chainApp .selection-bar .sb-left b {color:#fff;font-weight:600;font-size:14px;}
+  #chainApp .selection-bar .sb-item {display:flex;flex-direction:column;padding-left:16px;border-left:1px solid rgba(255,255,255,0.15);}
+  #chainApp .selection-bar .sb-item .l {font-size:10px;color:var(--sidebar-ink-dim);letter-spacing:0.04em;}
+  #chainApp .selection-bar .sb-item .v {font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:#fff;}
+  #chainApp .selection-bar .sb-price {
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:26px;color:var(--rust);
+    padding:2px 0 2px 18px;border-left:1px solid rgba(255,255,255,0.15);
+    display:flex;flex-direction:column;align-items:flex-end;
+  }
+  #chainApp .selection-bar .sb-price .sb-price-label {font-family:'Inter',sans-serif;font-weight:400;font-size:11px;color:var(--sidebar-ink-dim);display:block;margin-bottom:2px;white-space:nowrap;}
+  #chainApp .selection-bar .sb-price .sb-tax {font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--sidebar-ink-dim);margin-top:2px;}
+  #chainApp .selection-bar .sb-clear {
+    background:transparent;border:1px solid rgba(255,255,255,0.25);color:var(--sidebar-ink-dim);
+    padding:8px 14px;border-radius:8px;font-size:12.5px;cursor:pointer;flex-shrink:0;
+  }
+  #chainApp .selection-bar .sb-clear:hover {color:#fff;border-color:rgba(255,255,255,0.5);}
+  @media (max-width: 720px){
+    #chainApp .selection-bar {
+      padding:10px 14px;gap:8px;
+      flex-direction:column;align-items:stretch;
+    }
+    #chainApp .selection-bar .sb-left {justify-content:space-between;width:100%;gap:8px;}
+    #chainApp .selection-bar .sb-item {padding-left:12px;}
+    #chainApp .selection-bar .sb-price {
+      width:100%;padding:8px 0 0;border-left:none;border-top:1px solid rgba(255,255,255,0.15);
+      align-items:flex-end;
+    }
+    #chainApp .selection-bar .sb-price .sb-price-label {white-space:nowrap;}
+    #chainApp .selection-bar .sb-clear {align-self:flex-end;}
+  }
+
+  /* ---- Help modal ---- */
+  #chainApp .modal-overlay {
+    display:none;
+    position:fixed;inset:0;background:rgba(20,20,16,0.5);
+    align-items:flex-start;justify-content:center;
+    padding:5vh 16px;overflow-y:auto;z-index:100;
+  }
+  #chainApp .modal-overlay.open {display:flex;}
+  #chainApp .modal {
+    background:var(--panel);border-radius:12px;
+    width:100%;max-width:480px;padding:24px 26px 26px;
+    border:1px solid var(--line);
+  }
+  #chainApp .modal h2 {font-size:19px;margin:0 0 18px;}
+  #chainApp .help-section {margin-bottom:18px;}
+  #chainApp .help-heading {font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:var(--rust-dark);margin:0 0 8px;}
+  #chainApp .help-list {margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;}
+  #chainApp .help-list li {font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  #chainApp .help-list li b {color:var(--ink);font-weight:600;}
+  #chainApp .btn {
+    padding:9px 18px;border-radius:8px;font-size:13.5px;cursor:pointer;border:1px solid var(--line-strong);
+    background:var(--panel);color:var(--ink);font-weight:500;
+  }
+  #chainApp .btn:hover {background:var(--bg);}
+  #chainApp .btn.primary {background:var(--rust);border-color:var(--rust);color:#fff;}
+  #chainApp .btn.primary:hover {background:var(--rust-dark);}
+
+  /* ---- Mobile ---- */
+  @media (max-width: 720px){
+    #chainApp .main {padding:24px 16px 40px;}
+  }
+
 </style>
 </head>
 <body>
+<div class="app-switcher">
+  <span class="as-brand">TOOLS</span>
+  <button class="app-switch-btn" id="switchToWorkRate">作業工賃表</button>
+  <button class="app-switch-btn" id="switchToChain">チェーン交換早見</button>
+</div>
+
+<div id="workRateApp">
+
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
 <nav class="sidebar">
@@ -924,6 +1250,92 @@
       <button class="btn primary" id="pasteAddBtn" style="display:none;">選択した項目を追加</button>
     </div>
   </div>
+</div>
+
+
+</div>
+
+<div id="chainApp">
+<main class="main">
+  <div class="topbar">
+    <div>
+      <h1 id="ct-catTitle">チェーン交換早見</h1>
+      <span class="cat-tag" id="ct-catCode">CHAIN &amp; WIRE INDEX</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+      <button class="tab-chip edit-toggle-btn" id="ct-editToggleBtn">編集モード</button>
+      <button class="help-btn" id="ct-helpBtn" title="使い方" style="margin-left:0;">?</button>
+    </div>
+  </div>
+
+  <div class="tab-row" id="ct-typeTabs"></div>
+  <button class="filter-toggle-btn" id="ct-filterToggleBtn">絞り込み<span class="filter-count" id="ct-filterCount" style="display:none;"></span><span class="ft-arrow">&#9662;</span></button>
+  <div id="ct-filterPanel" class="filter-panel">
+    <div class="tab-row" id="ct-shapeTabs"></div>
+    <div class="tab-row sub" id="ct-capTabs"></div>
+  </div>
+
+  <div class="search-row">
+    <div class="search-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="ct-searchInput" placeholder="型式・商品番号・チェーン品番で検索">
+    </div>
+  </div>
+
+  <p class="result-count" id="ct-resultCount"></p>
+  <div class="cards" id="ct-cardArea"></div>
+</main>
+
+<div class="selection-bar" id="ct-selectionBar">
+  <div class="sb-left">
+    <span id="ct-sbModelName"><b>-</b></span>
+    <div class="sb-item"><span class="l">部品代</span><span class="v" id="ct-sbParts">¥0</span></div>
+    <div class="sb-item"><span class="l">作業工賃</span><span class="v" id="ct-sbLabor">¥0</span></div>
+  </div>
+  <div class="sb-price">
+    <span class="sb-price-label">合計(税抜)</span>
+    <span id="ct-sbPrice">¥0</span>
+    <span id="ct-sbPriceTax" class="sb-tax"></span>
+  </div>
+  <button class="sb-clear" id="ct-sbClear">閉じる</button>
+</div>
+
+<div class="modal-overlay" id="ct-helpModalOverlay">
+  <div class="modal">
+    <h2>使い方</h2>
+    <div class="help-section">
+      <p class="help-heading">基本の流れ</p>
+      <ul class="help-list">
+        <li><b>上部のタブ</b>でリフトの種類・形状・能力を絞り込み</li>
+        <li>検索や絞り込みで機種を探し、<b>該当のカードをタップ</b>して開く</li>
+        <li>交換パーツのブロックをタップすると選択・解除が切り替わります（グレーのブロックは選択できません）</li>
+        <li>品番タグをタップするとクリップボードにコピーされます</li>
+        <li>画面下のバーに部品代・工賃・合計金額がリアルタイム表示されます</li>
+        <li><b>Escキー</b>でカードを閉じて選択をリセットできます</li>
+      </ul>
+    </div>
+    <div class="help-section">
+      <p class="help-heading">価格・工賃の編集</p>
+      <ul class="help-list">
+        <li>右上の<b>「編集モード」</b>をONにすると、部品代・作業工賃を直接書き換えられます</li>
+        <li>編集した内容はこの端末のブラウザに保存され、次回以降も反映されます（他の端末とは共有されません）</li>
+        <li>編集したカードには<b>「編集済み」</b>のラベルが付きます。カード内の「編集をリセット」で元の値に戻せます</li>
+      </ul>
+    </div>
+    <div class="help-section">
+      <p class="help-heading">共通の注意事項</p>
+      <ul class="help-list">
+        <li><b>SKY MAXⅡ・Ⅲ</b>はチェーン長さが2リンク異なります(Ⅲが長い)</li>
+        <li><b>スギヤス純正チェーン</b>は部品供給終了のためOEMチェーンで対応</li>
+        <li><b>作動油交換</b>を同時実施する場合は工賃に+1H加算されます</li>
+        <li style="color:var(--ink-faint);">2025年4月版 価格表(DP)準拠</li>
+      </ul>
+    </div>
+    <div class="modal-actions" style="display:flex;justify-content:flex-end;margin-top:20px;">
+      <button class="btn primary" id="ct-helpCloseBtn">閉じる</button>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
@@ -6185,5 +6597,815 @@ try{
   }
 }catch(e){}
 </script>
+
+<script>
+(function(){
+
+  const liftData =
+[
+  {
+    "id": "LM4324_LM4325",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "3t"
+    ],
+    "productNo": "LM4324、LM4325",
+    "model": "MK-300、MK-300D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "番号設定無し",
+    "mainPrice": 24310,
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "LM4324-P100-",
+    "subPrice": 96900,
+    "laborSubOnly": 80000,
+    "laborBoth": 100000,
+    "notice": ""
+  },
+  {
+    "id": "LM4326",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "3t"
+    ],
+    "productNo": "LM4326",
+    "model": "MK-300P",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "番号設定無し",
+    "mainPrice": 24310,
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "LM4326-P100-",
+    "subPrice": 96900,
+    "laborSubOnly": 80000,
+    "laborBoth": 100000,
+    "notice": ""
+  },
+  {
+    "id": "LM4327_LM4328",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "3.5t"
+    ],
+    "productNo": "LM4327、LM4328",
+    "model": "MK-350、MK-350D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "番号設定無し",
+    "mainPrice": 24310,
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "LM4328-P100-",
+    "subPrice": 118150,
+    "laborSubOnly": 80000,
+    "laborBoth": 100000,
+    "notice": ""
+  },
+  {
+    "id": "LM4329",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "3.5t"
+    ],
+    "productNo": "LM4329",
+    "model": "MK-350P",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "番号設定無し",
+    "mainPrice": 24310,
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "LM4329-P100-",
+    "subPrice": 118150,
+    "laborSubOnly": 80000,
+    "laborBoth": 100000,
+    "notice": ""
+  },
+  {
+    "id": "LM4320",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "4.5t"
+    ],
+    "productNo": "LM4320",
+    "model": "MK-450、MK-450D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "-",
+    "mainPrice": null,
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "番号なし",
+    "subPrice": null,
+    "laborSubOnly": 0,
+    "laborBoth": 0,
+    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）"
+  },
+  {
+    "id": "LM4321",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "5t"
+    ],
+    "productNo": "LM4321",
+    "model": "MK-500、MK-500D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "-",
+    "mainPrice": null,
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "番号なし",
+    "subPrice": null,
+    "laborSubOnly": 0,
+    "laborBoth": 0,
+    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）"
+  },
+  {
+    "id": "LM4240_LM4241",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "2.5t",
+      "3t"
+    ],
+    "productNo": "LM4240、LM4241",
+    "model": "OSP25、OSP30",
+    "maker": "OEMチェーン (スギヤス互換)",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM4240-P973-",
+    "mainPrice": 20880,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM4240-P935-",
+    "subPrice": 47320,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+  },
+  {
+    "id": "LM4242",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "ワイド",
+      "3t"
+    ],
+    "productNo": "LM4242",
+    "model": "NSP30",
+    "maker": "OEMチェーン (スギヤス互換)",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM4240-P973-",
+    "mainPrice": 20880,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM4240-P936-",
+    "subPrice": 48710,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+  },
+  {
+    "id": "LM8200_LM8201_LM8230_LM8231_LM8331",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "2.7t",
+      "3.2t",
+      "4t"
+    ],
+    "productNo": "LM8200、LM8201、LM8230、LM8231、LM8331",
+    "model": "LM8200、LM8201、LM8230、LM8231、LM8331",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8200-P323-",
+    "subPrice": 55720,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM8202_LM8232",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "ワイド",
+      "3t",
+      "3.2t"
+    ],
+    "productNo": "LM8202、LM8232",
+    "model": "LM8202、LM8232",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8202-P323-",
+    "subPrice": 57470,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM4243",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "オフセット",
+      "3t"
+    ],
+    "productNo": "LM4243",
+    "model": "OSA30、WOSA30",
+    "maker": "OEMチェーン (スギヤス互換)",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM4240-P973-",
+    "mainPrice": 20880,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM4243-P931-",
+    "subPrice": 54270,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+  },
+  {
+    "id": "LM4244",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "3t"
+    ],
+    "productNo": "LM4244",
+    "model": "NSA30、WNSA30",
+    "maker": "OEMチェーン (スギヤス互換)",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM4240-P973-",
+    "mainPrice": 20880,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM4243-P932-",
+    "subPrice": 58450,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+  },
+  {
+    "id": "LM8203_LM8233_LM8333",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "オフセット",
+      "3t",
+      "3.2t",
+      "4t"
+    ],
+    "productNo": "LM8203、LM8233、LM8333",
+    "model": "LM8203、LM8233、LM8333",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8203-P323-",
+    "subPrice": 74020,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM8204_LM8234",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "3t",
+      "3.2t"
+    ],
+    "productNo": "LM8204、LM8234",
+    "model": "LM8204、LM8234",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8204-P323-",
+    "subPrice": 83360,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM8334",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "4t"
+    ],
+    "productNo": "LM8334",
+    "model": "LM8334",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8334-P323-",
+    "subPrice": 83360,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM8335",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "ハイポスト",
+      "3.2t"
+    ],
+    "productNo": "LM8335",
+    "model": "LM8335",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8335-P323-",
+    "subPrice": 78270,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM8206_LM8236",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "ハイポスト",
+      "3.2t"
+    ],
+    "productNo": "LM8206、LM8236",
+    "model": "LM8206、LM8236",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8206-P323-",
+    "subPrice": 91410,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  },
+  {
+    "id": "LM8336",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "ハイポスト",
+      "4t"
+    ],
+    "productNo": "LM8336",
+    "model": "LM8336",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "mainPrice": 20240,
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8336-P323-",
+    "subPrice": 91410,
+    "laborSubOnly": 45000,
+    "laborBoth": 50000,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+  }
+];
+
+  const typeMeta = [
+    { key: 'ALL', name: 'すべて' },
+    { key: '2柱', name: '2柱リフト' },
+    { key: '門型2柱', name: '門型2柱リフト' },
+    { key: '4柱', name: '4柱リフト' }
+  ];
+
+  let currentType = 'ALL';
+  let openId = null;
+  let editMode = false;
+  const partState = {}; // id -> { main: bool, sub: bool }
+  const activeShape = new Set();
+  const activeCap = new Set();
+  let searchQuery = '';
+
+  const OVERRIDES_KEY = 'chainToolOverrides_v1';
+  function loadOverrides(){
+    try { return JSON.parse(localStorage.getItem(OVERRIDES_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveOverrides(){
+    try { localStorage.setItem(OVERRIDES_KEY, JSON.stringify(overrides)); }
+    catch(e){}
+  }
+  const overrides = loadOverrides(); // id -> { mainPrice, subPrice, laborSubOnly, laborBoth }
+
+  function getEffective(item){
+    const o = overrides[item.id];
+    if (!o) return item;
+    return {
+      ...item,
+      mainPrice: (o.mainPrice !== undefined && o.mainPrice !== null) ? o.mainPrice : item.mainPrice,
+      subPrice: (o.subPrice !== undefined && o.subPrice !== null) ? o.subPrice : item.subPrice,
+      laborSubOnly: (o.laborSubOnly !== undefined && o.laborSubOnly !== null) ? o.laborSubOnly : item.laborSubOnly,
+      laborBoth: (o.laborBoth !== undefined && o.laborBoth !== null) ? o.laborBoth : item.laborBoth
+    };
+  }
+  function setOverride(id, field, value){
+    if (!overrides[id]) overrides[id] = {};
+    overrides[id][field] = (value === '' || value === null || isNaN(value)) ? null : Number(value);
+    saveOverrides();
+  }
+  function resetOverrides(id){
+    delete overrides[id];
+    saveOverrides();
+  }
+  function hasOverride(id){
+    return !!overrides[id] && Object.values(overrides[id]).some(v => v !== undefined && v !== null);
+  }
+
+  const typeTabsEl = document.getElementById('ct-typeTabs');
+  const shapeTabsEl = document.getElementById('ct-shapeTabs');
+  const capTabsEl = document.getElementById('ct-capTabs');
+  const cardAreaEl = document.getElementById('ct-cardArea');
+  const resultCountEl = document.getElementById('ct-resultCount');
+  const selectionBarEl = document.getElementById('ct-selectionBar');
+  const filterToggleBtn = document.getElementById('ct-filterToggleBtn');
+  const filterPanelEl = document.getElementById('ct-filterPanel');
+  const filterCountEl = document.getElementById('ct-filterCount');
+
+  filterToggleBtn.onclick = () => {
+    const open = filterPanelEl.classList.toggle('open');
+    filterToggleBtn.classList.toggle('open', open);
+  };
+  function renderFilterCount(){
+    const n = activeShape.size + activeCap.size;
+    filterCountEl.style.display = n > 0 ? 'inline-flex' : 'none';
+    filterCountEl.textContent = n;
+  }
+
+  liftData.forEach(item => {
+    partState[item.id] = { main: true, sub: true };
+  });
+
+  function isCapTag(tag){ return /\d(\.\d)?t$/.test(tag); }
+
+  function renderTypeTabs(){
+    typeTabsEl.innerHTML = '';
+    typeMeta.forEach(t => {
+      const count = t.key === 'ALL' ? liftData.length : liftData.filter(d => d.type === t.key).length;
+      const chip = document.createElement('div');
+      chip.className = 'tab-chip' + (currentType === t.key ? ' active' : '');
+      chip.textContent = `${t.name} (${count})`;
+      chip.onclick = () => { currentType = t.key; renderAll(); };
+      typeTabsEl.appendChild(chip);
+    });
+  }
+
+  function renderFilterTabs(){
+    const pool = liftData.filter(d => currentType === 'ALL' || d.type === currentType);
+    const shapeSet = new Set();
+    const capSet = new Set();
+    pool.forEach(d => d.spec.forEach(s => { isCapTag(s) ? capSet.add(s) : shapeSet.add(s); }));
+
+    const capOrder = ['2.5t','2.7t','3t','3.2t','3.5t','4t','4.5t','5t'];
+    const shapeOrder = ['オフセット','ワイド','ハイポスト'];
+
+    shapeTabsEl.innerHTML = '';
+    shapeOrder.filter(s => shapeSet.has(s)).forEach(s => {
+      const chip = document.createElement('div');
+      chip.className = 'tab-chip' + (activeShape.has(s) ? ' active' : '');
+      chip.textContent = s;
+      chip.onclick = () => {
+        activeShape.has(s) ? activeShape.delete(s) : activeShape.add(s);
+        renderAll();
+      };
+      shapeTabsEl.appendChild(chip);
+    });
+
+    capTabsEl.innerHTML = '';
+    capOrder.filter(c => capSet.has(c)).forEach(c => {
+      const chip = document.createElement('div');
+      chip.className = 'tab-chip' + (activeCap.has(c) ? ' active' : '');
+      chip.textContent = c;
+      chip.onclick = () => {
+        activeCap.has(c) ? activeCap.delete(c) : activeCap.add(c);
+        renderAll();
+      };
+      capTabsEl.appendChild(chip);
+    });
+
+    renderFilterCount();
+  }
+
+  function getFiltered(){
+    return liftData.filter(item => {
+      if (currentType !== 'ALL' && item.type !== currentType) return false;
+      if (activeShape.size > 0 && ![...activeShape].some(s => item.spec.includes(s))) return false;
+      if (activeCap.size > 0 && ![...activeCap].some(c => item.spec.includes(c))) return false;
+      if (searchQuery) {
+        const hay = `${item.model} ${item.productNo} ${item.category} ${item.maker} ${item.mainPartNo} ${item.subPartNo}`.toLowerCase();
+        if (!hay.includes(searchQuery)) return false;
+      }
+      return true;
+    });
+  }
+
+  function fmtYen(v){
+    return (v === null || v === undefined) ? '都度問合せ' : `¥${v.toLocaleString()}`;
+  }
+
+  function calcForItem(rawItem){
+    const item = getEffective(rawItem);
+    const st = partState[item.id];
+    let parts = 0;
+    if (st.main && item.mainPrice) parts += item.mainPrice;
+    if (st.sub && item.subPrice) parts += item.subPrice;
+
+    let labor = 0, laborMode = '選択なし';
+    if (st.main && st.sub) {
+      labor = item.laborBoth;
+      laborMode = item.type === '4柱' ? 'ワイヤー＋チェーン交換工賃' : 'メイン＋サブ交換工賃';
+    } else if (st.sub && !st.main) {
+      labor = item.laborSubOnly;
+      laborMode = item.type === '4柱' ? 'ワイヤーのみ交換工賃' : 'サブ（従動側）のみ交換工賃';
+    } else if (st.main && !st.sub) {
+      labor = item.laborSubOnly;
+      laborMode = '駆動側のみ交換工賃（目安）';
+    } else {
+      laborMode = '部品未選択';
+    }
+    return { parts, labor: labor || 0, laborMode, total: parts + (labor || 0) };
+  }
+
+  function renderCards(){
+    const items = getFiltered();
+    resultCountEl.textContent = items.length + ' 件';
+    cardAreaEl.innerHTML = '';
+
+    if (items.length === 0) {
+      cardAreaEl.innerHTML = `<div class="empty-state"><p class="disp">該当する機種が見つかりません</p><p>検索キーワードやタグの絞り込みを変えてお試しください。</p></div>`;
+      return;
+    }
+
+    items.forEach(item => {
+      const eff = getEffective(item);
+      const card = document.createElement('div');
+      card.className = 'card' + (openId === item.id ? ' open' : '');
+
+      const isInquiry = eff.mainPrice === null && eff.subPrice === null;
+      let chips = '';
+      if (currentType === 'ALL') chips += `<span class="cat-chip">${item.category}</span>`;
+      if (isInquiry) chips += `<span class="status-chip">要問合せ</span>`;
+      if (hasOverride(item.id)) chips += `<span class="status-chip edited">編集済み</span>`;
+      item.spec.forEach(s => chips += `<span class="meta-chip">${s}</span>`);
+
+      card.innerHTML = `
+        <div class="card-head">
+          <div>
+            <p class="card-title">${item.model}<span class="prodno">品番: ${item.productNo} ／ ${item.maker}</span></p>
+            <div class="card-meta">${chips}</div>
+          </div>
+          <div class="card-right">
+            <div class="chev">&#9656;</div>
+          </div>
+        </div>
+        <div class="card-detail" id="detail-${item.id}"></div>
+      `;
+
+      card.querySelector('.card-head').onclick = () => {
+        openId = (openId === item.id) ? null : item.id;
+        renderCards();
+        updateSelectionBar();
+      };
+
+      cardAreaEl.appendChild(card);
+
+      if (openId === item.id) {
+        const detailEl = card.querySelector('.card-detail');
+        detailEl.innerHTML = buildDetailHtml(item);
+        wireDetailEvents(detailEl, item);
+      }
+    });
+  }
+
+  function buildPartRow(item, role){
+    const eff = getEffective(item);
+    const st = partState[item.id];
+    const isMain = role === 'main';
+    const name = isMain ? item.mainChainName : item.subChainName;
+    const partNo = isMain ? item.mainPartNo : item.subPartNo;
+    const priceVal = isMain ? eff.mainPrice : eff.subPrice;
+    const selected = st[role];
+    const structurallyMissing = (partNo === '-' || partNo === '番号なし');
+    const unavailable = !editMode && (structurallyMissing || priceVal === null);
+
+    const priceField = editMode
+      ? `<input type="text" inputmode="numeric" class="price-input" data-role="${role}" data-field="${isMain ? 'mainPrice' : 'subPrice'}" value="${priceVal === null ? '' : priceVal.toLocaleString()}" placeholder="${structurallyMissing ? '価格未設定' : '未入力'}">`
+      : `<span class="p-price ${priceVal === null ? 'inquiry' : ''}">${fmtYen(priceVal)}</span>`;
+
+    return `<div class="part-row ${selected ? 'selected' : ''} ${unavailable ? 'unavailable' : ''}" data-role="${role}">
+      <div class="check-icon">&#10003;</div>
+      <div class="p-name">${name}<br>
+        <span class="part-tag ${structurallyMissing ? 'disabled' : ''}" data-copy="${partNo}">${partNo}<span class="copy-icon">&#128203;</span></span>
+      </div>
+      ${priceField}
+    </div>`;
+  }
+
+  function buildDetailHtml(item){
+    const eff = getEffective(item);
+    const calc = calcForItem(item);
+
+    let html = `<div class="detail-block"><p class="detail-label">交換パーツ（タップして選択）</p>`;
+    html += buildPartRow(item, 'main');
+    html += buildPartRow(item, 'sub');
+    html += `</div>`;
+
+    html += `<div class="detail-block"><p class="detail-label">作業工賃</p>`;
+    if (editMode) {
+      html += `<div class="labor-edit-row">
+        <span>サブ（従動側）のみ交換工賃</span>
+        <input type="text" inputmode="numeric" class="price-input labor-input" data-field="laborSubOnly" value="${eff.laborSubOnly !== null && eff.laborSubOnly !== undefined ? eff.laborSubOnly.toLocaleString() : ''}" placeholder="未入力">
+      </div>
+      <div class="labor-edit-row">
+        <span>メイン＋サブ交換工賃</span>
+        <input type="text" inputmode="numeric" class="price-input labor-input" data-field="laborBoth" value="${eff.laborBoth !== null && eff.laborBoth !== undefined ? eff.laborBoth.toLocaleString() : ''}" placeholder="未入力">
+      </div>`;
+    } else {
+      html += `<div class="breakdown-row"><span>${calc.laborMode}</span><span>¥${calc.labor.toLocaleString()}</span></div>`;
+    }
+    html += `<div class="breakdown-row"><span>合計(税抜)</span><span>¥${calc.total.toLocaleString()}</span></div>
+    </div>`;
+
+    if (editMode && hasOverride(item.id)) {
+      html += `<div class="detail-block"><span class="reset-link" data-reset="${item.id}">この機種の編集をリセット</span></div>`;
+    }
+
+    if (item.notice) {
+      html += `<div class="detail-block"><p class="detail-label">注意事項</p>`;
+      item.notice.split('\n').forEach(n => {
+        if (n.trim()) html += `<span class="meta-chip warn" style="display:block;margin-bottom:5px;width:fit-content;">${n}</span>`;
+      });
+      html += `</div>`;
+    }
+
+    return html;
+  }
+
+  function wireDetailEvents(detailEl, item){
+    detailEl.querySelectorAll('.part-row').forEach(row => {
+      row.onclick = (e) => {
+        e.stopPropagation();
+        if (row.classList.contains('unavailable')) return;
+        if (e.target.closest('.part-tag') || e.target.closest('.price-input')) return;
+        const role = row.dataset.role;
+        partState[item.id][role] = !partState[item.id][role];
+        renderCards();
+        updateSelectionBar();
+      };
+    });
+    detailEl.querySelectorAll('.part-tag').forEach(tag => {
+      tag.onclick = (e) => {
+        e.stopPropagation();
+        if (tag.classList.contains('disabled')) return;
+        const text = tag.dataset.copy;
+        const flash = () => {
+          tag.classList.add('copied');
+          setTimeout(() => tag.classList.remove('copied'), 900);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(flash).catch(() => {});
+        }
+      };
+    });
+    detailEl.querySelectorAll('.price-input').forEach(input => {
+      input.onclick = (e) => e.stopPropagation();
+      input.onfocus = () => { input.value = input.value.replace(/[^0-9]/g, ''); };
+      input.onchange = (e) => {
+        e.stopPropagation();
+        const digits = input.value.replace(/[^0-9]/g, '');
+        setOverride(item.id, input.dataset.field, digits);
+        renderCards();
+        updateSelectionBar();
+      };
+    });
+    const resetLink = detailEl.querySelector('.reset-link');
+    if (resetLink) {
+      resetLink.onclick = (e) => {
+        e.stopPropagation();
+        resetOverrides(resetLink.dataset.reset);
+        renderCards();
+        updateSelectionBar();
+      };
+    }
+  }
+
+  function updateSelectionBar(){
+    if (!openId) {
+      selectionBarEl.classList.remove('show');
+      document.querySelector('.main').classList.remove('has-bottom-bar');
+      return;
+    }
+    const item = liftData.find(d => d.id === openId);
+    const calc = calcForItem(item);
+    document.getElementById('ct-sbModelName').innerHTML = `<b>${item.model}</b>`;
+    document.getElementById('ct-sbParts').textContent = `¥${calc.parts.toLocaleString()}`;
+    document.getElementById('ct-sbLabor').textContent = `¥${calc.labor.toLocaleString()}`;
+    document.getElementById('ct-sbPrice').textContent = `¥${calc.total.toLocaleString()}`;
+    document.getElementById('ct-sbPriceTax').textContent = `税込目安 ¥${Math.floor(calc.total * 1.1).toLocaleString()}`;
+    selectionBarEl.classList.add('show');
+    document.querySelector('.main').classList.add('has-bottom-bar');
+  }
+
+  function renderAll(){
+    renderTypeTabs();
+    renderFilterTabs();
+    renderCards();
+    updateSelectionBar();
+  }
+
+  document.getElementById('ct-searchInput').addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    renderAll();
+  });
+
+  function closeSelection(){
+    openId = null;
+    renderCards();
+    updateSelectionBar();
+  }
+  document.getElementById('ct-sbClear').onclick = closeSelection;
+
+  const helpModalOverlay = document.getElementById('ct-helpModalOverlay');
+  document.getElementById('ct-helpBtn').onclick = () => helpModalOverlay.classList.add('open');
+  document.getElementById('ct-helpCloseBtn').onclick = () => helpModalOverlay.classList.remove('open');
+
+  const editToggleBtn = document.getElementById('ct-editToggleBtn');
+  function renderEditToggle(){
+    editToggleBtn.classList.toggle('active', editMode);
+    editToggleBtn.textContent = editMode ? '編集モード: ON' : '編集モード';
+  }
+  editToggleBtn.onclick = () => {
+    editMode = !editMode;
+    renderEditToggle();
+    renderCards();
+    updateSelectionBar();
+  };
+  renderEditToggle();
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (helpModalOverlay.classList.contains('open')) {
+      helpModalOverlay.classList.remove('open');
+      return;
+    }
+    if (openId) closeSelection();
+  });
+
+  renderAll();
+
+})();
+</script>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'activeAppTab_v1';
+  var workRateApp = document.getElementById('workRateApp');
+  var chainApp = document.getElementById('chainApp');
+  var btnWorkRate = document.getElementById('switchToWorkRate');
+  var btnChain = document.getElementById('switchToChain');
+
+  function showApp(name){
+    var isWorkRate = name === 'workRate';
+    workRateApp.classList.toggle('active', isWorkRate);
+    chainApp.classList.toggle('active', !isWorkRate);
+    btnWorkRate.classList.toggle('active', isWorkRate);
+    btnChain.classList.toggle('active', !isWorkRate);
+    try { localStorage.setItem(STORAGE_KEY, name); } catch(e){}
+  }
+
+  btnWorkRate.onclick = function(){ showApp('workRate'); };
+  btnChain.onclick = function(){ showApp('chain'); };
+
+  var saved = 'workRate';
+  try { saved = localStorage.getItem(STORAGE_KEY) || 'workRate'; } catch(e){}
+  showApp(saved);
+})();
+</script>
+
 </body>
 </html>
