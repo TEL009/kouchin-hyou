@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <title>作業工賃表</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    color-scheme: light;
     --bg: #F3F1EA;
     --panel: #FFFFFF;
     --ink: #24261F;
@@ -614,28 +616,30 @@
   }
 
 
+
   /* ---- App switcher ---- */
   .app-switcher{
     display:flex;align-items:center;gap:8px;
     background:var(--sidebar);padding:10px 20px;
     position:sticky;top:0;z-index:300;
     box-shadow:0 2px 8px rgba(0,0,0,0.12);
+    overflow-x:auto;
   }
   .app-switcher .as-brand{
     font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;
-    color:#fff;margin-right:10px;letter-spacing:0.02em;white-space:nowrap;
+    color:#fff;margin-right:10px;letter-spacing:0.02em;white-space:nowrap;flex-shrink:0;
   }
   .app-switch-btn{
     padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
     background:transparent;color:var(--sidebar-ink-dim);font-size:13px;font-weight:500;
-    cursor:pointer;transition:all .12s ease;white-space:nowrap;
+    cursor:pointer;transition:all .12s ease;white-space:nowrap;flex-shrink:0;
   }
   .app-switch-btn:hover{color:#fff;border-color:rgba(255,255,255,0.4);}
   .app-switch-btn.active{background:var(--rust);border-color:var(--rust);color:#fff;}
   @media (max-width: 720px){
     .app-switcher{padding:8px 12px;gap:6px;}
     .app-switcher .as-brand{display:none;}
-    .app-switch-btn{padding:7px 12px;font-size:12.5px;flex:1;text-align:center;}
+    .app-switch-btn{padding:7px 12px;font-size:12.5px;}
   }
 
   /* ---- Chain tool (scoped) ---- */
@@ -691,6 +695,16 @@
   #chainApp .tab-chip.active {background:var(--ink);border-color:var(--ink);color:#fff;}
   #chainApp #ct-typeTabs .tab-chip {font-weight:500;}
   #chainApp #ct-typeTabs .tab-chip.active {background:var(--rust);border-color:var(--rust);color:#fff;}
+
+  /* price tier selector (matches inspection-calibration-tool) */
+  #chainApp .tier-row {display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  #chainApp .tier-label {font-size:12px;color:var(--ink-soft);flex-shrink:0;}
+  #chainApp .tier-btn {
+    padding:6px 13px;border-radius:20px;border:1px solid var(--line-strong);
+    background:var(--steel-tint);color:var(--steel);font-size:12px;font-weight:600;
+    font-family:'JetBrains Mono',monospace;cursor:pointer;
+  }
+  #chainApp .tier-btn.active {background:var(--steel);border-color:var(--steel);color:#fff;}
 
   #chainApp .filter-toggle-btn {
     display:inline-flex;align-items:center;gap:6px;
@@ -830,18 +844,40 @@
   #chainApp .p-price {font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:var(--ink);flex-shrink:0;white-space:nowrap;}
   #chainApp .p-price.inquiry {font-size:12px;font-weight:500;color:var(--ink-faint);}
 
-  #chainApp .price-input {
-    width:96px;flex-shrink:0;text-align:right;
-    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
-    border:1.5px solid var(--line-strong);border-radius:6px;padding:5px 8px;
-    color:var(--ink);background:#fff;outline:none;
-  }
-  #chainApp .price-input:focus {border-color:var(--rust);}
-  #chainApp .labor-input {width:100px;}
-  #chainApp .labor-edit-row {display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12.5px;color:var(--ink-soft);gap:10px;}
-  #chainApp .reset-link {font-size:11.5px;color:var(--rust-dark);cursor:pointer;text-decoration:underline;}
-  #chainApp .reset-link:hover {color:var(--rust);}
   #chainApp .edit-toggle-btn.active {background:var(--steel);border-color:var(--steel);color:#fff;}
+  #chainApp .edit-hint {font-size:11.5px;color:var(--ink-soft);margin:0 0 14px;}
+
+  /* edit-mode spreadsheet-style table (mirrors inspection-calibration-tool) */
+  #chainApp .edit-table-wrap {overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);}
+  #chainApp table.edit-table {width:100%;border-collapse:collapse;font-size:13px;min-width:640px;}
+  #chainApp table.edit-table thead th {
+    position:sticky;top:0;background:var(--sidebar);color:var(--sidebar-ink);
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:12px;letter-spacing:0.03em;
+    text-align:left;padding:9px 10px;white-space:nowrap;z-index:2;
+  }
+  #chainApp table.edit-table tbody td {padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  #chainApp table.edit-table tbody tr:hover {background:var(--bg);}
+  #chainApp table.edit-table tbody tr.edited {background:var(--steel-tint);}
+  #chainApp table.edit-table .cell-code {font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-faint);white-space:nowrap;}
+  #chainApp table.edit-table .drag-col {width:32px;padding-left:8px;padding-right:0;}
+  #chainApp .drag-handle {
+    display:flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:6px;color:var(--ink-faint);
+    font-size:15px;cursor:grab;touch-action:none;user-select:none;
+  }
+  #chainApp .drag-handle:hover {background:var(--bg);color:var(--ink-soft);}
+  #chainApp table.edit-table tbody tr.dragging {background:var(--rust-tint);opacity:0.85;}
+  #chainApp table.edit-table tbody tr.dragging .drag-handle {cursor:grabbing;color:var(--rust-dark);}
+  #chainApp .cell-input {
+    width:100%;min-width:90px;border:1.5px solid transparent;border-radius:6px;
+    padding:5px 7px;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;
+    background:transparent;color:var(--ink);outline:none;
+  }
+  #chainApp .cell-input:hover {border-color:var(--line-strong);}
+  #chainApp .cell-input:focus {border-color:var(--rust);background:#fff;}
+  #chainApp .cell-reset {font-size:11px;color:var(--rust-dark);cursor:pointer;text-decoration:underline;white-space:nowrap;}
+  #chainApp .cell-reset:hover {color:var(--rust);}
+  #chainApp .cell-reset.disabled {color:var(--ink-faint);text-decoration:none;cursor:default;pointer-events:none;}
 
   #chainApp .breakdown-row {display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);padding:5px 0;}
   #chainApp .breakdown-row span:last-child {font-family:'JetBrains Mono',monospace;color:var(--ink);font-weight:600;}
@@ -929,6 +965,265 @@
     #chainApp .main {padding:24px 16px 40px;}
   }
 
+
+  /* ---- Inspection/calibration tool (scoped) ---- */
+/* ============================================================
+     Everything below is scoped under #inspectionApp so this file
+     can be dropped into a multi-tool shell later with no rework
+     (same convention as the chain-tool: scoped CSS + prefixed IDs
+     + IIFE-wrapped JS). See /areas/chain-koukan-tool.md pattern.
+     ============================================================ */
+
+  #inspectionApp *{box-sizing:border-box;}
+  #inspectionApp{margin:0;padding:0;}
+  #inspectionApp{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    display:none;
+  }
+  #inspectionApp.active{display:block;}
+  #inspectionApp h1, #inspectionApp h2, #inspectionApp h3, #inspectionApp .disp{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    letter-spacing:0.01em;
+  }
+  #inspectionApp .mono{font-family:'JetBrains Mono',monospace;}
+  #inspectionApp button{font-family:'Inter',sans-serif;}
+
+  #inspectionApp .main{margin:0 auto;padding:32px 24px 60px;max-width:960px;transition:padding-bottom .15s ease;}
+  #inspectionApp .topbar{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;}
+  #inspectionApp .topbar h1{font-size:30px;margin:0;color:var(--ink);}
+  #inspectionApp .topbar .cat-tag{font-size:12px;color:var(--rust-dark);font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;}
+  #inspectionApp .subhead{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;}
+  #inspectionApp .help-btn{
+    width:30px;height:30px;border-radius:50%;
+    border:1.5px solid var(--line-strong);background:var(--panel);
+    color:var(--ink-soft);font-weight:700;font-size:14px;cursor:pointer;flex-shrink:0;
+  }
+  #inspectionApp .help-btn:hover{border-color:var(--rust);color:var(--rust-dark);}
+
+  /* mode switch (コンボ / 個別) */
+  #inspectionApp .mode-row{display:flex;gap:6px;margin-bottom:14px;}
+  #inspectionApp .mode-btn{
+    flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--line-strong);
+    background:var(--panel);color:var(--ink-soft);font-size:13.5px;font-weight:500;cursor:pointer;
+    text-align:center;transition:all .12s ease;
+  }
+  #inspectionApp .mode-btn:hover{border-color:var(--rust);}
+  #inspectionApp .mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  /* price tier selector */
+  #inspectionApp .tier-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  #inspectionApp .tier-label{font-size:12px;color:var(--ink-soft);flex-shrink:0;}
+  #inspectionApp .tier-btn{
+    padding:6px 13px;border-radius:20px;border:1px solid var(--line-strong);
+    background:var(--steel-tint);color:var(--steel);font-size:12px;font-weight:600;
+    font-family:'JetBrains Mono',monospace;cursor:pointer;
+  }
+  #inspectionApp .tier-btn.active{background:var(--steel);border-color:var(--steel);color:#fff;}
+
+  #inspectionApp .tab-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+  #inspectionApp .tab-chip{
+    display:flex;align-items:center;gap:6px;
+    padding:7px 12px;border-radius:20px;border:1px solid var(--line-strong);
+    background:var(--panel);cursor:pointer;font-size:13px;color:var(--ink-soft);white-space:nowrap;
+  }
+  #inspectionApp .tab-chip:hover{border-color:var(--rust);}
+  #inspectionApp .tab-chip.active{background:var(--rust);border-color:var(--rust);color:#fff;}
+
+  #inspectionApp .filter-toggle-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 4px;margin-bottom:8px;border:none;background:transparent;color:var(--ink-soft);
+    font-size:12.5px;cursor:pointer;font-weight:500;
+  }
+  #inspectionApp .filter-toggle-btn:hover{color:var(--rust-dark);}
+  #inspectionApp .filter-toggle-btn .ft-arrow{font-size:9px;transition:transform .15s ease;color:var(--ink-faint);}
+  #inspectionApp .filter-toggle-btn.open .ft-arrow{transform:rotate(180deg);}
+  #inspectionApp .filter-count{
+    font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+    background:var(--rust);color:#fff;padding:1px 6px;border-radius:10px;
+  }
+  #inspectionApp .filter-panel{display:none;padding:12px 14px;margin-bottom:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;}
+  #inspectionApp .filter-panel.open{display:block;}
+
+  #inspectionApp .search-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  #inspectionApp .search-wrap{
+    display:flex;align-items:center;gap:8px;background:var(--panel);
+    border:1px solid var(--line-strong);border-radius:8px;padding:0 12px;height:42px;flex:1;
+  }
+  #inspectionApp .search-wrap input{border:none;outline:none;flex:1;height:100%;font-family:'Inter',sans-serif;font-size:14px;background:transparent;color:var(--ink);}
+  #inspectionApp .search-wrap input::placeholder{color:var(--ink-faint);}
+  #inspectionApp .search-icon{color:var(--ink-faint);font-size:15px;}
+
+  #inspectionApp .result-count{font-size:12px;color:var(--ink-soft);margin:0 0 14px 2px;}
+
+  #inspectionApp .cards{display:flex;flex-direction:column;gap:10px;}
+  #inspectionApp .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  }
+  #inspectionApp .card-left{min-width:0;flex:1;}
+  #inspectionApp .card-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);display:block;margin-bottom:3px;}
+  #inspectionApp .code-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    background:var(--steel-tint);color:var(--steel);
+    padding:2px 7px;border-radius:5px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:4px;
+    border:1px solid transparent;transition:background .1s ease;
+  }
+  #inspectionApp .code-tag:hover{background:#D3E1E9;}
+  #inspectionApp .code-tag.copied{background:var(--steel);color:#fff;}
+  #inspectionApp .code-tag .copy-icon{font-size:9px;opacity:0.6;}
+  #inspectionApp .card-code .combo-code-label{color:var(--ink-faint);margin-left:6px;}
+  #inspectionApp .card-title{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 6px;}
+  #inspectionApp .card-tags{display:flex;gap:6px;flex-wrap:wrap;}
+  #inspectionApp .eq-chip{font-size:11px;color:var(--steel);background:var(--steel-tint);padding:2px 8px;border-radius:20px;}
+  #inspectionApp .card-right{flex-shrink:0;text-align:right;}
+  #inspectionApp .price-main{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:19px;color:var(--ink);}
+  #inspectionApp .price-tier-label{font-size:10px;color:var(--rust-dark);font-weight:600;letter-spacing:0.04em;}
+
+  #inspectionApp .empty-state{text-align:center;padding:70px 20px;color:var(--ink-faint);}
+  #inspectionApp .empty-state .disp{font-size:22px;color:var(--ink-soft);margin:0 0 8px;}
+  #inspectionApp .empty-state p{font-size:13px;margin:0;line-height:1.7;}
+
+  #inspectionApp .modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(20,20,16,0.5);
+    align-items:flex-start;justify-content:center;padding:5vh 16px;overflow-y:auto;z-index:100;
+  }
+  #inspectionApp .modal-overlay.open{display:flex;}
+  #inspectionApp .modal{background:var(--panel);border-radius:12px;width:100%;max-width:480px;padding:24px 26px 26px;border:1px solid var(--line);}
+  #inspectionApp .modal h2{font-size:19px;margin:0 0 18px;}
+  #inspectionApp .help-section{margin-bottom:18px;}
+  #inspectionApp .help-heading{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:var(--rust-dark);margin:0 0 8px;}
+  #inspectionApp .help-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;}
+  #inspectionApp .help-list li{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  #inspectionApp .help-list li b{color:var(--ink);font-weight:600;}
+  #inspectionApp .btn{padding:9px 18px;border-radius:8px;font-size:13.5px;cursor:pointer;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);font-weight:500;}
+  #inspectionApp .btn:hover{background:var(--bg);}
+  #inspectionApp .btn.primary{background:var(--rust);border-color:var(--rust);color:#fff;}
+  #inspectionApp .btn.primary:hover{background:var(--rust-dark);}
+
+  #inspectionApp .notice-strip{
+    font-size:11.5px;line-height:1.7;color:var(--rust-dark);background:var(--rust-tint);
+    border-radius:8px;padding:10px 14px;margin:0 0 16px;
+  }
+  #inspectionApp .notice-toggle{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 4px;margin-bottom:10px;border:none;background:transparent;color:var(--rust-dark);
+    font-size:12px;cursor:pointer;font-weight:500;
+  }
+  #inspectionApp .notice-toggle .nt-arrow{font-size:9px;transition:transform .15s ease;}
+  #inspectionApp .notice-toggle.open .nt-arrow{transform:rotate(180deg);}
+  #inspectionApp .notice-panel{display:none;}
+  #inspectionApp .notice-panel.open{display:block;}
+
+  /* individual-mode selectable tiles */
+  #inspectionApp .card.selectable{cursor:pointer;transition:border-color .12s ease, background .12s ease;}
+  #inspectionApp .card.selectable:hover{border-color:var(--line-strong);}
+  #inspectionApp .card.selectable.selected{border-color:var(--rust);background:var(--rust-tint);}
+  #inspectionApp .card-check{
+    width:20px;height:20px;border-radius:50%;flex-shrink:0;
+    border:1.5px solid var(--line-strong);background:var(--panel);
+    display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;
+    transition:all .12s ease;margin-right:2px;
+  }
+  #inspectionApp .card.selectable.selected .card-check{background:var(--rust);border-color:var(--rust);color:#fff;}
+  #inspectionApp .card-left-row{display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0;}
+
+  /* selection bar (mirrors chain-koukan-tool's bottom bar) */
+  #inspectionApp .selection-bar{
+    position:fixed;left:0;right:0;bottom:0;
+    background:var(--sidebar);color:#fff;
+    padding:14px 32px;
+    display:none;align-items:center;justify-content:space-between;gap:16px;
+    z-index:50;box-shadow:0 -4px 16px rgba(0,0,0,0.15);flex-wrap:wrap;
+  }
+  #inspectionApp .selection-bar.show{display:flex;}
+  #inspectionApp .selection-bar .sb-left{font-size:13.5px;color:var(--sidebar-ink-dim);}
+  #inspectionApp .selection-bar .sb-left b{color:#fff;font-weight:700;font-family:'JetBrains Mono',monospace;}
+  #inspectionApp .selection-bar .sb-price{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:24px;color:var(--rust);
+    padding:2px 0 2px 18px;border-left:1px solid rgba(255,255,255,0.15);
+    display:flex;flex-direction:column;align-items:flex-end;flex:1;
+  }
+  #inspectionApp .selection-bar .sb-price .sb-price-label{font-family:'Inter',sans-serif;font-weight:400;font-size:11px;color:var(--sidebar-ink-dim);display:block;margin-bottom:2px;white-space:nowrap;}
+  #inspectionApp .selection-bar .sb-clear{
+    background:transparent;border:1px solid rgba(255,255,255,0.25);color:var(--sidebar-ink-dim);
+    padding:8px 14px;border-radius:8px;font-size:12.5px;cursor:pointer;flex-shrink:0;
+  }
+  #inspectionApp .selection-bar .sb-clear:hover{color:#fff;border-color:rgba(255,255,255,0.5);}
+  #inspectionApp .main.has-bottom-bar{padding-bottom:100px;}
+
+  /* edit mode toggle */
+  #inspectionApp .edit-toggle-btn.active{background:var(--steel);border-color:var(--steel);color:#fff;}
+
+  /* edit-mode spreadsheet-style table */
+  #inspectionApp .edit-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);}
+  #inspectionApp table.edit-table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px;}
+  #inspectionApp table.edit-table thead th{
+    position:sticky;top:0;background:var(--sidebar);color:var(--sidebar-ink);
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:12px;letter-spacing:0.03em;
+    text-align:left;padding:9px 10px;white-space:nowrap;z-index:2;
+  }
+  #inspectionApp table.edit-table tbody td{
+    padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:middle;
+  }
+  #inspectionApp table.edit-table tbody tr:hover{background:var(--bg);}
+  #inspectionApp table.edit-table tbody tr.edited{background:var(--steel-tint);}
+  #inspectionApp table.edit-table .cell-code{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-faint);white-space:nowrap;}
+  #inspectionApp table.edit-table .cell-tags{display:flex;flex-wrap:wrap;gap:4px;max-width:260px;}
+  #inspectionApp table.edit-table .cell-tags .eq-chip{font-size:10px;padding:1px 6px;}
+  #inspectionApp table.edit-table .drag-col{width:32px;padding-left:8px;padding-right:0;}
+  #inspectionApp .drag-handle{
+    display:flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:6px;color:var(--ink-faint);
+    font-size:15px;cursor:grab;touch-action:none;user-select:none;
+  }
+  #inspectionApp .drag-handle:hover{background:var(--bg);color:var(--ink-soft);}
+  #inspectionApp table.edit-table tbody tr.dragging{background:var(--rust-tint);opacity:0.85;}
+  #inspectionApp table.edit-table tbody tr.dragging .drag-handle{cursor:grabbing;color:var(--rust-dark);}
+  #inspectionApp .cell-input{
+    width:100%;min-width:90px;border:1.5px solid transparent;border-radius:6px;
+    padding:5px 7px;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;
+    background:transparent;color:var(--ink);outline:none;
+  }
+  #inspectionApp .cell-input:hover{border-color:var(--line-strong);}
+  #inspectionApp .cell-input:focus{border-color:var(--rust);background:#fff;}
+  #inspectionApp .cell-input.name-input{font-family:'Inter',sans-serif;font-weight:500;min-width:160px;}
+  #inspectionApp .cell-reset{
+    font-size:11px;color:var(--rust-dark);cursor:pointer;text-decoration:underline;white-space:nowrap;
+  }
+  #inspectionApp .cell-reset:hover{color:var(--rust);}
+  #inspectionApp .cell-reset.disabled{color:var(--ink-faint);text-decoration:none;cursor:default;pointer-events:none;}
+  #inspectionApp .edit-hint{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;}
+
+  #inspectionApp .tier-btn .tier-full{display:inline;}
+  #inspectionApp .tier-btn .tier-short{display:none;}
+
+  @media (min-width: 900px){
+    #inspectionApp .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    #inspectionApp .cards.single-col{display:flex;flex-direction:column;}
+  }
+
+  @media (max-width: 720px){
+    #inspectionApp .main{padding:20px 16px 40px;}
+    #inspectionApp .topbar h1{font-size:22px;}
+    #inspectionApp .topbar .cat-tag{display:none;}
+    #inspectionApp .subhead{font-size:11.5px;}
+    #inspectionApp .tier-btn{padding:6px 10px;font-size:11px;}
+    #inspectionApp .tier-btn .tier-full{display:none;}
+    #inspectionApp .tier-btn .tier-short{display:inline;}
+    #inspectionApp .card{padding:12px 14px;}
+    #inspectionApp .card-right{text-align:left;width:100%;border-top:1px dashed var(--line);padding-top:8px;}
+    #inspectionApp .selection-bar{padding:10px 14px;flex-direction:column;align-items:stretch;gap:8px;}
+    #inspectionApp .selection-bar .sb-price{width:100%;border-left:none;border-top:1px solid rgba(255,255,255,0.15);padding:8px 0 0;align-items:flex-end;}
+    #inspectionApp .selection-bar .sb-clear{align-self:flex-end;}
+    #inspectionApp .main.has-bottom-bar{padding-bottom:130px;}
+    #inspectionApp table.edit-table{font-size:12px;}
+  }
+
 </style>
 </head>
 <body>
@@ -936,6 +1231,7 @@
   <span class="as-brand">TOOLS</span>
   <button class="app-switch-btn" id="switchToWorkRate">作業工賃表</button>
   <button class="app-switch-btn" id="switchToChain">チェーン交換早見</button>
+  <button class="app-switch-btn" id="switchToInspection">点検校正料金表</button>
 </div>
 
 <div id="workRateApp">
@@ -981,8 +1277,10 @@
   </div>
 
   <div class="topbar">
-    <h1 id="catTitle">-</h1>
-    <span class="cat-tag" id="catCode"></span>
+    <div>
+      <h1 id="catTitle">-</h1>
+      <span class="cat-tag" id="catCode"></span>
+    </div>
     <button class="help-btn" id="helpBtn" title="使い方">?</button>
   </div>
 
@@ -1269,13 +1567,20 @@
   </div>
 
   <div class="tab-row" id="ct-typeTabs"></div>
+
+  <div class="tier-row" id="ct-tierRow">
+    <span class="tier-label">表示する価格帯:</span>
+    <button class="tier-btn" data-tier="nss">NSS価格(原価)</button>
+    <button class="tier-btn" data-tier="dp">D/P・S/P</button>
+    <button class="tier-btn" data-tier="lp">L/P・U/P</button>
+  </div>
   <button class="filter-toggle-btn" id="ct-filterToggleBtn">絞り込み<span class="filter-count" id="ct-filterCount" style="display:none;"></span><span class="ft-arrow">&#9662;</span></button>
   <div id="ct-filterPanel" class="filter-panel">
     <div class="tab-row" id="ct-shapeTabs"></div>
     <div class="tab-row sub" id="ct-capTabs"></div>
   </div>
 
-  <div class="search-row">
+  <div class="search-row" id="ct-searchRow">
     <div class="search-wrap">
       <span class="search-icon">&#128269;</span>
       <input type="text" id="ct-searchInput" placeholder="型式・商品番号・チェーン品番で検索">
@@ -1307,6 +1612,7 @@
       <p class="help-heading">基本の流れ</p>
       <ul class="help-list">
         <li><b>上部のタブ</b>でリフトの種類・形状・能力を絞り込み</li>
+        <li><b>表示する価格帯</b>（NSS価格(原価) / D・P・S・P / L・P・U・P）を切り替えられます</li>
         <li>検索や絞り込みで機種を探し、<b>該当のカードをタップ</b>して開く</li>
         <li>交換パーツのブロックをタップすると選択・解除が切り替わります（グレーのブロックは選択できません）</li>
         <li>品番タグをタップするとクリップボードにコピーされます</li>
@@ -1317,9 +1623,12 @@
     <div class="help-section">
       <p class="help-heading">価格・工賃の編集</p>
       <ul class="help-list">
-        <li>右上の<b>「編集モード」</b>をONにすると、部品代・作業工賃を直接書き換えられます</li>
-        <li>編集した内容はこの端末のブラウザに保存され、次回以降も反映されます（他の端末とは共有されません）</li>
-        <li>編集したカードには<b>「編集済み」</b>のラベルが付きます。カード内の「編集をリセット」で元の値に戻せます</li>
+        <li>右上の<b>「編集モード」</b>をONにすると、表形式（スプレッドシート風）の編集画面に切り替わります</li>
+        <li><b>作業工賃は「4柱」「2柱・門型2柱」の2グループ共通</b>です。上の表でグループごとに一括編集できます（機種ごとの個別設定はありません）</li>
+        <li>部品価格は<b>NSS価格(原価)・D/P・L/Pの3価格帯ごと</b>にセルを編集できます。現時点でD/Pのみ実データが入っており、NSS・L/Pは未入力（今後の登録用に空欄）です</li>
+        <li>左端の &#9776; をドラッグすると、機種の並び順を変更できます（通常表示にも反映されます）</li>
+        <li>編集内容はこの端末のブラウザに保存され、次回以降も反映されます（他の端末とは共有されません）</li>
+        <li>編集した行は色が変わり、行末の「リセット」で元の値に戻せます</li>
       </ul>
     </div>
     <div class="help-section">
@@ -1335,6 +1644,97 @@
       <button class="btn primary" id="ct-helpCloseBtn">閉じる</button>
     </div>
   </div>
+</div>
+</div>
+
+<div id="inspectionApp">
+<main class="main">
+  <div class="topbar">
+    <div>
+      <h1>車検機器点検・校正料金早見</h1>
+      <span class="cat-tag">INSPECTION &amp; CALIBRATION INDEX</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+      <button class="tab-chip edit-toggle-btn" id="insp-editToggleBtn">編集モード</button>
+      <button class="help-btn" id="insp-helpBtn" title="使い方" style="margin-left:0;">?</button>
+    </div>
+  </div>
+  <p class="subhead">2026年5月1日改定価格準拠（サービス連絡書 26上-007 修正版2）</p>
+
+  <button class="notice-toggle" id="insp-noticeToggle">お知らせ（価格改定について）<span class="nt-arrow">&#9662;</span></button>
+  <div class="notice-panel" id="insp-noticePanel">
+    <div class="notice-strip">
+      ※ 個別点検料金表の「IM9000201:事前校正基本料金」は廃止され、「IM9000200:基本校正料」に統合されています。
+    </div>
+  </div>
+
+  <div class="mode-row">
+    <button class="mode-btn" id="insp-modeCombo">車検ライン点検一式（コンボ）</button>
+    <button class="mode-btn" id="insp-modeIndividual">個別車検機器点検</button>
+  </div>
+
+  <div class="tier-row">
+    <span class="tier-label">表示する価格帯:</span>
+    <button class="tier-btn" data-tier="nssPrice"><span class="tier-full">NSS価格</span><span class="tier-short">NSS</span></button>
+    <button class="tier-btn" data-tier="dpPrice"><span class="tier-full">D/P・S/P</span><span class="tier-short">DP</span></button>
+    <button class="tier-btn" data-tier="lpPrice"><span class="tier-full">L/P・U/P</span><span class="tier-short">LP</span></button>
+  </div>
+
+  <div id="insp-comboFilterWrap">
+    <button class="filter-toggle-btn" id="insp-filterToggleBtn">含まれる機器で絞り込み<span class="filter-count" id="insp-filterCount" style="display:none;"></span><span class="ft-arrow">&#9662;</span></button>
+    <div id="insp-filterPanel" class="filter-panel">
+      <div class="tab-row" id="insp-eqTabs"></div>
+    </div>
+  </div>
+
+  <div class="search-row" id="insp-searchRow">
+    <div class="search-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="insp-searchInput" placeholder="作業コード・作業内容・機器名で検索">
+    </div>
+  </div>
+
+  <p class="result-count" id="insp-resultCount"></p>
+  <div class="cards" id="insp-cardArea"></div>
+
+  <div id="insp-helpModalOverlay" class="modal-overlay">
+    <div class="modal">
+      <h2>使い方</h2>
+      <div class="help-section">
+        <p class="help-heading">基本の流れ</p>
+        <ul class="help-list">
+          <li><b>「車検ライン点検一式」</b>は複数機器をまとめて点検するコンボ料金、<b>「個別車検機器点検」</b>は機器単体の料金です</li>
+          <li>上部で<b>表示する価格帯</b>（NSS価格 / D・S・P / L・U・P）を選べます</li>
+          <li>コンボ表示では、含まれる機器タグで絞り込みできます</li>
+          <li>個別点検では、タイルをタップして複数選択でき、下部に合計金額が表示されます</li>
+          <li>作業コード・作業内容・機器名で検索できます</li>
+        </ul>
+      </div>
+      <div class="help-section">
+        <p class="help-heading">価格・内容の編集</p>
+        <ul class="help-list">
+          <li>右上の<b>「編集モード」</b>をONにすると、表形式（スプレッドシート風）の編集画面に切り替わります</li>
+          <li>各セルをクリックして直接書き換えられます（個別点検は作業内容の文言も編集可）</li>
+          <li>編集内容はこの端末のブラウザに保存されます（他の端末とは共有されません）</li>
+          <li>編集した行は色が変わり、行末の「リセット」で元の値に戻せます</li>
+        </ul>
+      </div>
+      <div class="modal-actions" style="display:flex;justify-content:flex-end;margin-top:20px;">
+        <button class="btn primary" id="insp-helpCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="selection-bar" id="insp-selectionBar">
+  <div class="sb-left">
+    <span id="insp-sbCount"><b>0</b>件選択中</span>
+  </div>
+  <div class="sb-price">
+    <span class="sb-price-label" id="insp-sbTierLabel">合計(NSS価格)</span>
+    <span id="insp-sbTotal">¥0</span>
+  </div>
+  <button class="sb-clear" id="insp-sbClear">選択解除</button>
 </div>
 </div>
 
@@ -3373,6 +3773,14 @@ const DEFAULT_DATA = {
       },
       {
         "group": "共通",
+        "title": "リモコンリール交換",
+        "people": "1人",
+        "hoursLabel": "1.5",
+        "note": "脚立使用",
+        "_uid": "u42"
+      },
+      {
+        "group": "共通",
         "title": "操作SW交換",
         "people": "1人",
         "hoursLabel": "1.0",
@@ -3381,14 +3789,6 @@ const DEFAULT_DATA = {
           "LM8085-P249- MP用"
         ],
         "_uid": "u41"
-      },
-      {
-        "group": "共通",
-        "title": "リモコンリール交換",
-        "people": "1人",
-        "hoursLabel": "1.5",
-        "note": "脚立使用",
-        "_uid": "u42"
       },
       {
         "title": "マグネットSW交換(ユニット内蔵)",
@@ -4089,24 +4489,74 @@ const DEFAULT_DATA = {
         "groupCode": "MUS"
       },
       {
-        "title": "制御基板交換",
+        "title": "電磁弁交換※移動側",
         "people": "1人",
-        "hoursLabel": "",
+        "hoursLabel": "2",
         "group": "ツインリフト",
         "model": "共通",
+        "category": "部品交換",
+        "breakdown": [
+          [
+            "電源OFF、エアーバルブ閉",
+            ""
+          ],
+          [
+            "エアー残圧抜き",
+            ""
+          ],
+          [
+            "キャタピラ部切り離し",
+            ""
+          ],
+          [
+            "ピット内進入",
+            ""
+          ],
+          [
+            "エアーチューブ取外し、継手類取外し",
+            ""
+          ],
+          [
+            "部品交換、復旧作業",
+            ""
+          ]
+        ],
+        "parts": [
+          "LM4143-P025-"
+        ],
+        "ladder": true,
         "_uid": "u159"
+      },
+      {
+        "title": "油圧ポンプA'ssy交換※移動側",
+        "people": "2人",
+        "hoursLabel": "5",
+        "group": "ツインリフト",
+        "model": "共通",
+        "category": "部品交換",
+        "parts": [
+          "LMHL00-P01E-"
+        ],
+        "unic": true,
+        "_uid": "u161"
       }
     ],
     "groupOrder": [
       "門型･2柱リフト",
       "EPリフト",
       "MPⅡ・Ⅲ",
+      "フロントリフト",
       "ツインリフト",
       "アルネオ",
       "スペース",
       "マクロス",
       "マルチユース",
       "ブロードⅢ"
+    ],
+    "groups": [
+      {
+        "name": "フロントリフト"
+      }
     ]
   },
   "CS": {
@@ -4161,7 +4611,7 @@ const DEFAULT_DATA = {
       {
         "title": "ポンプ部管材交換",
         "people": "1人",
-        "hoursLabel": "2.5〜3.0",
+        "hoursLabel": "2.5",
         "note": "チーズピンホール水漏れ等",
         "_uid": "u56"
       },
@@ -6604,24 +7054,50 @@ try{
   const liftData =
 [
   {
-    "id": "LM4324_LM4325",
+    "id": "LM4324",
     "category": "4柱リフト",
     "type": "4柱",
     "spec": [
       "3t"
     ],
-    "productNo": "LM4324、LM4325",
-    "model": "MK-300、MK-300D",
+    "productNo": "LM4324",
+    "model": "MK-300",
     "maker": "イヤサカ精機",
     "mainChainName": "チェーン（駆動側）",
     "mainPartNo": "番号設定無し",
-    "mainPrice": 24310,
     "subChainName": "ワイヤー（従動側）",
     "subPartNo": "LM4324-P100-",
-    "subPrice": 96900,
-    "laborSubOnly": 80000,
-    "laborBoth": 100000,
-    "notice": ""
+    "inquiry": false,
+    "notice": "",
+    "mainDpPrice": 24310,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 96900,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM4325",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "3t"
+    ],
+    "productNo": "LM4325",
+    "model": "MK-300D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "番号設定無し",
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "LM4324-P100-",
+    "inquiry": false,
+    "notice": "",
+    "mainDpPrice": 24310,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 96900,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4326",
@@ -6635,33 +7111,62 @@ try{
     "maker": "イヤサカ精機",
     "mainChainName": "チェーン（駆動側）",
     "mainPartNo": "番号設定無し",
-    "mainPrice": 24310,
     "subChainName": "ワイヤー（従動側）",
     "subPartNo": "LM4326-P100-",
-    "subPrice": 96900,
-    "laborSubOnly": 80000,
-    "laborBoth": 100000,
-    "notice": ""
+    "inquiry": false,
+    "notice": "",
+    "mainDpPrice": 24310,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 96900,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM4327_LM4328",
+    "id": "LM4327",
     "category": "4柱リフト",
     "type": "4柱",
     "spec": [
       "3.5t"
     ],
-    "productNo": "LM4327、LM4328",
-    "model": "MK-350、MK-350D",
+    "productNo": "LM4327",
+    "model": "MK-350",
     "maker": "イヤサカ精機",
     "mainChainName": "チェーン（駆動側）",
     "mainPartNo": "番号設定無し",
-    "mainPrice": 24310,
     "subChainName": "ワイヤー（従動側）",
     "subPartNo": "LM4328-P100-",
-    "subPrice": 118150,
-    "laborSubOnly": 80000,
-    "laborBoth": 100000,
-    "notice": ""
+    "inquiry": false,
+    "notice": "",
+    "mainDpPrice": 24310,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 118150,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM4328",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "3.5t"
+    ],
+    "productNo": "LM4328",
+    "model": "MK-350D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "番号設定無し",
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "LM4328-P100-",
+    "inquiry": false,
+    "notice": "",
+    "mainDpPrice": 24310,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 118150,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4329",
@@ -6675,13 +7180,16 @@ try{
     "maker": "イヤサカ精機",
     "mainChainName": "チェーン（駆動側）",
     "mainPartNo": "番号設定無し",
-    "mainPrice": 24310,
     "subChainName": "ワイヤー（従動側）",
     "subPartNo": "LM4329-P100-",
-    "subPrice": 118150,
-    "laborSubOnly": 80000,
-    "laborBoth": 100000,
-    "notice": ""
+    "inquiry": false,
+    "notice": "",
+    "mainDpPrice": 24310,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 118150,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4320",
@@ -6691,17 +7199,43 @@ try{
       "4.5t"
     ],
     "productNo": "LM4320",
-    "model": "MK-450、MK-450D",
+    "model": "MK-450",
     "maker": "イヤサカ精機",
     "mainChainName": "チェーン（駆動側）",
     "mainPartNo": "-",
-    "mainPrice": null,
     "subChainName": "ワイヤー（従動側）",
     "subPartNo": "番号なし",
-    "subPrice": null,
-    "laborSubOnly": 0,
-    "laborBoth": 0,
-    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）"
+    "inquiry": true,
+    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）",
+    "mainDpPrice": null,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": null,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM4320",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "4.5t"
+    ],
+    "productNo": "LM4320",
+    "model": "MK-450D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "-",
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "番号なし",
+    "inquiry": true,
+    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）",
+    "mainDpPrice": null,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": null,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4321",
@@ -6711,39 +7245,91 @@ try{
       "5t"
     ],
     "productNo": "LM4321",
-    "model": "MK-500、MK-500D",
+    "model": "MK-500",
     "maker": "イヤサカ精機",
     "mainChainName": "チェーン（駆動側）",
     "mainPartNo": "-",
-    "mainPrice": null,
     "subChainName": "ワイヤー（従動側）",
     "subPartNo": "番号なし",
-    "subPrice": null,
-    "laborSubOnly": 0,
-    "laborBoth": 0,
-    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）"
+    "inquiry": true,
+    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）",
+    "mainDpPrice": null,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": null,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM4240_LM4241",
+    "id": "LM4321",
+    "category": "4柱リフト",
+    "type": "4柱",
+    "spec": [
+      "5t"
+    ],
+    "productNo": "LM4321",
+    "model": "MK-500D",
+    "maker": "イヤサカ精機",
+    "mainChainName": "チェーン（駆動側）",
+    "mainPartNo": "-",
+    "subChainName": "ワイヤー（従動側）",
+    "subPartNo": "番号なし",
+    "inquiry": true,
+    "notice": "※ 都度問合せ品です（価格・工賃は別途お見積り）",
+    "mainDpPrice": null,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": null,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM4240",
     "category": "2柱リフト",
     "type": "2柱",
     "spec": [
       "オフセット",
-      "2.5t",
-      "3t"
+      "2.5t"
     ],
-    "productNo": "LM4240、LM4241",
-    "model": "OSP25、OSP30",
+    "productNo": "LM4240",
+    "model": "OSP25",
     "maker": "OEMチェーン (スギヤス互換)",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM4240-P973-",
-    "mainPrice": 20880,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM4240-P935-",
-    "subPrice": 47320,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+    "inquiry": false,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応",
+    "mainDpPrice": 20880,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 47320,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM4241",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "3t"
+    ],
+    "productNo": "LM4241",
+    "model": "OSP30",
+    "maker": "OEMチェーン (スギヤス互換)",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM4240-P973-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM4240-P935-",
+    "inquiry": false,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応",
+    "mainDpPrice": 20880,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 47320,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4242",
@@ -6758,58 +7344,184 @@ try{
     "maker": "OEMチェーン (スギヤス互換)",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM4240-P973-",
-    "mainPrice": 20880,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM4240-P936-",
-    "subPrice": 48710,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+    "inquiry": false,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応",
+    "mainDpPrice": 20880,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 48710,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM8200_LM8201_LM8230_LM8231_LM8331",
+    "id": "LM8200",
     "category": "2柱リフト",
     "type": "2柱",
     "spec": [
       "オフセット",
-      "2.7t",
-      "3.2t",
-      "4t"
+      "2.7t"
     ],
-    "productNo": "LM8200、LM8201、LM8230、LM8231、LM8331",
-    "model": "LM8200、LM8201、LM8230、LM8231、LM8331",
+    "productNo": "LM8200",
+    "model": "LM8200",
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8200-P323-",
-    "subPrice": 55720,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 55720,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM8202_LM8232",
+    "id": "LM8201",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "3.2t"
+    ],
+    "productNo": "LM8201",
+    "model": "LM8201",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8200-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 55720,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8230",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "2.7t"
+    ],
+    "productNo": "LM8230",
+    "model": "LM8230",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8200-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 55720,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8231",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "3.2t"
+    ],
+    "productNo": "LM8231",
+    "model": "LM8231",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8200-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 55720,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8331",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "オフセット",
+      "4t"
+    ],
+    "productNo": "LM8331",
+    "model": "LM8331",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8200-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 55720,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8202",
     "category": "2柱リフト",
     "type": "2柱",
     "spec": [
       "ワイド",
-      "3t",
-      "3.2t"
+      "3t"
     ],
-    "productNo": "LM8202、LM8232",
-    "model": "LM8202、LM8232",
+    "productNo": "LM8202",
+    "model": "LM8202",
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8202-P323-",
-    "subPrice": 57470,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 57470,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8232",
+    "category": "2柱リフト",
+    "type": "2柱",
+    "spec": [
+      "ワイド",
+      "3.2t"
+    ],
+    "productNo": "LM8232",
+    "model": "LM8232",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8202-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 57470,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4243",
@@ -6824,13 +7536,16 @@ try{
     "maker": "OEMチェーン (スギヤス互換)",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM4240-P973-",
-    "mainPrice": 20880,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM4243-P931-",
-    "subPrice": 54270,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+    "inquiry": false,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応",
+    "mainDpPrice": 20880,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 54270,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM4244",
@@ -6845,58 +7560,136 @@ try{
     "maker": "OEMチェーン (スギヤス互換)",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM4240-P973-",
-    "mainPrice": 20880,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM4243-P932-",
-    "subPrice": 58450,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応"
+    "inquiry": false,
+    "notice": "※ スギヤス純正チェーンは部品供給終了のためOEMチェーンで対応",
+    "mainDpPrice": 20880,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 58450,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM8203_LM8233_LM8333",
+    "id": "LM8203",
     "category": "門型2柱リフト",
     "type": "門型2柱",
     "spec": [
       "オフセット",
-      "3t",
-      "3.2t",
-      "4t"
+      "3t"
     ],
-    "productNo": "LM8203、LM8233、LM8333",
-    "model": "LM8203、LM8233、LM8333",
+    "productNo": "LM8203",
+    "model": "LM8203",
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8203-P323-",
-    "subPrice": 74020,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 74020,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM8204_LM8234",
+    "id": "LM8233",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "オフセット",
+      "3.2t"
+    ],
+    "productNo": "LM8233",
+    "model": "LM8233",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8203-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 74020,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8333",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "オフセット",
+      "4t"
+    ],
+    "productNo": "LM8333",
+    "model": "LM8333",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8203-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 74020,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8204",
     "category": "門型2柱リフト",
     "type": "門型2柱",
     "spec": [
       "ワイド",
-      "3t",
-      "3.2t"
+      "3t"
     ],
-    "productNo": "LM8204、LM8234",
-    "model": "LM8204、LM8234",
+    "productNo": "LM8204",
+    "model": "LM8204",
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8204-P323-",
-    "subPrice": 83360,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 83360,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8234",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "3.2t"
+    ],
+    "productNo": "LM8234",
+    "model": "LM8234",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8204-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 83360,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM8334",
@@ -6911,13 +7704,16 @@ try{
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8334-P323-",
-    "subPrice": 83360,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 83360,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM8335",
@@ -6933,16 +7729,19 @@ try{
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8335-P323-",
-    "subPrice": 78270,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 78270,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
-    "id": "LM8206_LM8236",
+    "id": "LM8206",
     "category": "門型2柱リフト",
     "type": "門型2柱",
     "spec": [
@@ -6950,18 +7749,46 @@ try{
       "ハイポスト",
       "3.2t"
     ],
-    "productNo": "LM8206、LM8236",
-    "model": "LM8206、LM8236",
+    "productNo": "LM8206",
+    "model": "LM8206",
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8206-P323-",
-    "subPrice": 91410,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 91410,
+    "subNssPrice": null,
+    "subLpPrice": null
+  },
+  {
+    "id": "LM8236",
+    "category": "門型2柱リフト",
+    "type": "門型2柱",
+    "spec": [
+      "ワイド",
+      "ハイポスト",
+      "3.2t"
+    ],
+    "productNo": "LM8236",
+    "model": "LM8236",
+    "maker": "アルティア",
+    "mainChainName": "駆動側チェーン",
+    "mainPartNo": "LM8200-P025-",
+    "subChainName": "従動側チェーン",
+    "subPartNo": "LM8206-P323-",
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 91410,
+    "subNssPrice": null,
+    "subLpPrice": null
   },
   {
     "id": "LM8336",
@@ -6977,15 +7804,49 @@ try{
     "maker": "アルティア",
     "mainChainName": "駆動側チェーン",
     "mainPartNo": "LM8200-P025-",
-    "mainPrice": 20240,
     "subChainName": "従動側チェーン",
     "subPartNo": "LM8336-P323-",
-    "subPrice": 91410,
-    "laborSubOnly": 45000,
-    "laborBoth": 50000,
-    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意"
+    "inquiry": false,
+    "notice": "※ SKY MAXⅡ、Ⅲでチェーン長さが2リンク異なる（Ⅲが長い）ので注意",
+    "mainDpPrice": 20240,
+    "mainNssPrice": null,
+    "mainLpPrice": null,
+    "subDpPrice": 91410,
+    "subNssPrice": null,
+    "subLpPrice": null
   }
 ];
+  const laborRates =
+{
+  "4柱": {
+    "dp": {
+      "laborSubOnly": 80000,
+      "laborBoth": 100000
+    },
+    "nss": {
+      "laborSubOnly": null,
+      "laborBoth": null
+    },
+    "lp": {
+      "laborSubOnly": null,
+      "laborBoth": null
+    }
+  },
+  "2柱・門型2柱": {
+    "dp": {
+      "laborSubOnly": 45000,
+      "laborBoth": 50000
+    },
+    "nss": {
+      "laborSubOnly": null,
+      "laborBoth": null
+    },
+    "lp": {
+      "laborSubOnly": null,
+      "laborBoth": null
+    }
+  }
+};
 
   const typeMeta = [
     { key: 'ALL', name: 'すべて' },
@@ -6993,6 +7854,16 @@ try{
     { key: '門型2柱', name: '門型2柱リフト' },
     { key: '4柱', name: '4柱リフト' }
   ];
+
+  const LABOR_GROUPS = ['4柱', '2柱・門型2柱'];
+  function laborGroupOf(type){ return type === '4柱' ? '4柱' : '2柱・門型2柱'; }
+
+  const TIER_META = {
+    nss: { field: 'Nss', label: 'NSS価格(原価)' },
+    dp:  { field: 'Dp',  label: 'D/P・S/P' },
+    lp:  { field: 'Lp',  label: 'L/P・U/P' }
+  };
+  let priceTier = 'dp'; // default: the only tier with real data today
 
   let currentType = 'ALL';
   let openId = null;
@@ -7002,7 +7873,8 @@ try{
   const activeCap = new Set();
   let searchQuery = '';
 
-  const OVERRIDES_KEY = 'chainToolOverrides_v1';
+  // ---- item price overrides (per side, per tier) ----
+  const OVERRIDES_KEY = 'chainToolOverrides_v3';
   function loadOverrides(){
     try { return JSON.parse(localStorage.getItem(OVERRIDES_KEY)) || {}; }
     catch(e){ return {}; }
@@ -7011,22 +7883,23 @@ try{
     try { localStorage.setItem(OVERRIDES_KEY, JSON.stringify(overrides)); }
     catch(e){}
   }
-  const overrides = loadOverrides(); // id -> { mainPrice, subPrice, laborSubOnly, laborBoth }
+  const overrides = loadOverrides();
+
+  const PRICE_FIELDS = ['mainNssPrice','mainDpPrice','mainLpPrice','subNssPrice','subDpPrice','subLpPrice'];
 
   function getEffective(item){
     const o = overrides[item.id];
     if (!o) return item;
-    return {
-      ...item,
-      mainPrice: (o.mainPrice !== undefined && o.mainPrice !== null) ? o.mainPrice : item.mainPrice,
-      subPrice: (o.subPrice !== undefined && o.subPrice !== null) ? o.subPrice : item.subPrice,
-      laborSubOnly: (o.laborSubOnly !== undefined && o.laborSubOnly !== null) ? o.laborSubOnly : item.laborSubOnly,
-      laborBoth: (o.laborBoth !== undefined && o.laborBoth !== null) ? o.laborBoth : item.laborBoth
-    };
+    const eff = Object.assign({}, item);
+    PRICE_FIELDS.forEach(f => {
+      if (o[f] !== undefined && o[f] !== null) eff[f] = o[f];
+    });
+    return eff;
   }
   function setOverride(id, field, value){
     if (!overrides[id]) overrides[id] = {};
-    overrides[id][field] = (value === '' || value === null || isNaN(value)) ? null : Number(value);
+    const digits = String(value).replace(/[^0-9]/g, '');
+    overrides[id][field] = (digits === '') ? null : Number(digits);
     saveOverrides();
   }
   function resetOverrides(id){
@@ -7037,7 +7910,85 @@ try{
     return !!overrides[id] && Object.values(overrides[id]).some(v => v !== undefined && v !== null);
   }
 
+  function tierPrice(item, side, tierKey){
+    const field = side + TIER_META[tierKey].field + 'Price';
+    return item[field];
+  }
+
+  // ---- labor rate overrides (group-level, per tier) ----
+  const LABOR_OVERRIDES_KEY = 'chainToolLaborOverrides_v2';
+  function loadLaborOverrides(){
+    try { return JSON.parse(localStorage.getItem(LABOR_OVERRIDES_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveLaborOverrides(){
+    try { localStorage.setItem(LABOR_OVERRIDES_KEY, JSON.stringify(laborOverrides)); }
+    catch(e){}
+  }
+  const laborOverrides = loadLaborOverrides(); // group -> tier -> { laborSubOnly, laborBoth }
+
+  function getEffectiveLabor(group, tier){
+    const base = laborRates[group][tier];
+    const o = (laborOverrides[group] && laborOverrides[group][tier]) || null;
+    if (!o) return base;
+    return {
+      laborSubOnly: (o.laborSubOnly !== undefined && o.laborSubOnly !== null) ? o.laborSubOnly : base.laborSubOnly,
+      laborBoth: (o.laborBoth !== undefined && o.laborBoth !== null) ? o.laborBoth : base.laborBoth
+    };
+  }
+  function setLaborOverride(group, tier, field, value){
+    if (!laborOverrides[group]) laborOverrides[group] = {};
+    if (!laborOverrides[group][tier]) laborOverrides[group][tier] = {};
+    const digits = String(value).replace(/[^0-9]/g, '');
+    laborOverrides[group][tier][field] = (digits === '') ? null : Number(digits);
+    saveLaborOverrides();
+  }
+  function resetLaborOverrideCell(group, tier){
+    if (laborOverrides[group]) delete laborOverrides[group][tier];
+    saveLaborOverrides();
+  }
+  function hasLaborOverrideCell(group, tier){
+    const o = laborOverrides[group] && laborOverrides[group][tier];
+    return !!o && Object.values(o).some(v => v !== undefined && v !== null);
+  }
+  function hasLaborOverrideRow(group){
+    return TIER_ORDER.some(t => hasLaborOverrideCell(group, t));
+  }
+  const TIER_ORDER = ['nss','dp','lp'];
+
+  // ---- custom row order (persisted) ----
+  const ORDER_KEY = 'chainToolOrder_v2';
+  function loadOrder(){
+    try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || null; }
+    catch(e){ return null; }
+  }
+  function saveOrder(){
+    try { localStorage.setItem(ORDER_KEY, JSON.stringify(orderIds)); }
+    catch(e){}
+  }
+  let orderIds = loadOrder() || liftData.map(it => it.id);
+  (function reconcileOrder(){
+    const byId = {}; liftData.forEach(it => byId[it.id] = it);
+    const known = new Set(orderIds);
+    liftData.forEach(it => { if (!known.has(it.id)) orderIds.push(it.id); });
+    orderIds = orderIds.filter(id => byId[id]);
+  })();
+  function getOrderedData(){
+    const byId = {}; liftData.forEach(it => byId[it.id] = it);
+    return orderIds.map(id => byId[id]);
+  }
+  function moveInOrder(id, targetId){
+    const fromIdx = orderIds.indexOf(id);
+    const toIdx = orderIds.indexOf(targetId);
+    if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return;
+    orderIds.splice(fromIdx, 1);
+    orderIds.splice(toIdx, 0, id);
+    saveOrder();
+  }
+
   const typeTabsEl = document.getElementById('ct-typeTabs');
+  const tierRowEl = document.getElementById('ct-tierRow');
+  const tierBtns = document.querySelectorAll('#ct-tierRow .tier-btn');
   const shapeTabsEl = document.getElementById('ct-shapeTabs');
   const capTabsEl = document.getElementById('ct-capTabs');
   const cardAreaEl = document.getElementById('ct-cardArea');
@@ -7046,6 +7997,17 @@ try{
   const filterToggleBtn = document.getElementById('ct-filterToggleBtn');
   const filterPanelEl = document.getElementById('ct-filterPanel');
   const filterCountEl = document.getElementById('ct-filterCount');
+  const searchRowEl = document.getElementById('ct-searchRow');
+
+  tierBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tier === priceTier);
+    btn.onclick = () => {
+      priceTier = btn.dataset.tier;
+      tierBtns.forEach(b => b.classList.toggle('active', b.dataset.tier === priceTier));
+      renderCards();
+      updateSelectionBar();
+    };
+  });
 
   filterToggleBtn.onclick = () => {
     const open = filterPanelEl.classList.toggle('open');
@@ -7112,7 +8074,7 @@ try{
   }
 
   function getFiltered(){
-    return liftData.filter(item => {
+    return getOrderedData().filter(item => {
       if (currentType !== 'ALL' && item.type !== currentType) return false;
       if (activeShape.size > 0 && ![...activeShape].some(s => item.spec.includes(s))) return false;
       if (activeCap.size > 0 && ![...activeCap].some(c => item.spec.includes(c))) return false;
@@ -7124,26 +8086,34 @@ try{
     });
   }
 
-  function fmtYen(v){
-    return (v === null || v === undefined) ? '都度問合せ' : `¥${v.toLocaleString()}`;
+  function fmtTierPrice(v, structurallyMissing){
+    if (structurallyMissing) return '都度問合せ';
+    if (v === null || v === undefined) return '未設定';
+    return `¥${v.toLocaleString()}`;
   }
 
   function calcForItem(rawItem){
     const item = getEffective(rawItem);
     const st = partState[item.id];
+    const mainPrice = tierPrice(item, 'main', priceTier);
+    const subPrice = tierPrice(item, 'sub', priceTier);
     let parts = 0;
-    if (st.main && item.mainPrice) parts += item.mainPrice;
-    if (st.sub && item.subPrice) parts += item.subPrice;
+    if (st.main && mainPrice) parts += mainPrice;
+    if (st.sub && subPrice) parts += subPrice;
+
+    const laborRate = item.inquiry
+      ? { laborSubOnly: 0, laborBoth: 0 }
+      : getEffectiveLabor(laborGroupOf(item.type), priceTier);
 
     let labor = 0, laborMode = '選択なし';
     if (st.main && st.sub) {
-      labor = item.laborBoth;
+      labor = laborRate.laborBoth;
       laborMode = item.type === '4柱' ? 'ワイヤー＋チェーン交換工賃' : 'メイン＋サブ交換工賃';
     } else if (st.sub && !st.main) {
-      labor = item.laborSubOnly;
+      labor = laborRate.laborSubOnly;
       laborMode = item.type === '4柱' ? 'ワイヤーのみ交換工賃' : 'サブ（従動側）のみ交換工賃';
     } else if (st.main && !st.sub) {
-      labor = item.laborSubOnly;
+      labor = laborRate.laborSubOnly;
       laborMode = '駆動側のみ交換工賃（目安）';
     } else {
       laborMode = '部品未選択';
@@ -7152,9 +8122,12 @@ try{
   }
 
   function renderCards(){
+    if (editMode) { renderEditView(); return; }
+
     const items = getFiltered();
     resultCountEl.textContent = items.length + ' 件';
     cardAreaEl.innerHTML = '';
+    cardAreaEl.classList.remove('single-col');
 
     if (items.length === 0) {
       cardAreaEl.innerHTML = `<div class="empty-state"><p class="disp">該当する機種が見つかりません</p><p>検索キーワードやタグの絞り込みを変えてお試しください。</p></div>`;
@@ -7162,14 +8135,12 @@ try{
     }
 
     items.forEach(item => {
-      const eff = getEffective(item);
       const card = document.createElement('div');
       card.className = 'card' + (openId === item.id ? ' open' : '');
 
-      const isInquiry = eff.mainPrice === null && eff.subPrice === null;
       let chips = '';
       if (currentType === 'ALL') chips += `<span class="cat-chip">${item.category}</span>`;
-      if (isInquiry) chips += `<span class="status-chip">要問合せ</span>`;
+      if (item.inquiry) chips += `<span class="status-chip">要問合せ</span>`;
       if (hasOverride(item.id)) chips += `<span class="status-chip edited">編集済み</span>`;
       item.spec.forEach(s => chips += `<span class="meta-chip">${s}</span>`);
 
@@ -7208,52 +8179,32 @@ try{
     const isMain = role === 'main';
     const name = isMain ? item.mainChainName : item.subChainName;
     const partNo = isMain ? item.mainPartNo : item.subPartNo;
-    const priceVal = isMain ? eff.mainPrice : eff.subPrice;
+    const priceVal = tierPrice(eff, role, priceTier);
     const selected = st[role];
     const structurallyMissing = (partNo === '-' || partNo === '番号なし');
-    const unavailable = !editMode && (structurallyMissing || priceVal === null);
-
-    const priceField = editMode
-      ? `<input type="text" inputmode="numeric" class="price-input" data-role="${role}" data-field="${isMain ? 'mainPrice' : 'subPrice'}" value="${priceVal === null ? '' : priceVal.toLocaleString()}" placeholder="${structurallyMissing ? '価格未設定' : '未入力'}">`
-      : `<span class="p-price ${priceVal === null ? 'inquiry' : ''}">${fmtYen(priceVal)}</span>`;
+    const unavailable = structurallyMissing || priceVal === null || priceVal === undefined;
 
     return `<div class="part-row ${selected ? 'selected' : ''} ${unavailable ? 'unavailable' : ''}" data-role="${role}">
       <div class="check-icon">&#10003;</div>
       <div class="p-name">${name}<br>
         <span class="part-tag ${structurallyMissing ? 'disabled' : ''}" data-copy="${partNo}">${partNo}<span class="copy-icon">&#128203;</span></span>
       </div>
-      ${priceField}
+      <span class="p-price ${unavailable ? 'inquiry' : ''}">${fmtTierPrice(priceVal, structurallyMissing)}</span>
     </div>`;
   }
 
   function buildDetailHtml(item){
-    const eff = getEffective(item);
     const calc = calcForItem(item);
 
-    let html = `<div class="detail-block"><p class="detail-label">交換パーツ（タップして選択）</p>`;
+    let html = `<div class="detail-block"><p class="detail-label">交換パーツ（タップして選択） ／ ${TIER_META[priceTier].label}</p>`;
     html += buildPartRow(item, 'main');
     html += buildPartRow(item, 'sub');
     html += `</div>`;
 
-    html += `<div class="detail-block"><p class="detail-label">作業工賃</p>`;
-    if (editMode) {
-      html += `<div class="labor-edit-row">
-        <span>サブ（従動側）のみ交換工賃</span>
-        <input type="text" inputmode="numeric" class="price-input labor-input" data-field="laborSubOnly" value="${eff.laborSubOnly !== null && eff.laborSubOnly !== undefined ? eff.laborSubOnly.toLocaleString() : ''}" placeholder="未入力">
-      </div>
-      <div class="labor-edit-row">
-        <span>メイン＋サブ交換工賃</span>
-        <input type="text" inputmode="numeric" class="price-input labor-input" data-field="laborBoth" value="${eff.laborBoth !== null && eff.laborBoth !== undefined ? eff.laborBoth.toLocaleString() : ''}" placeholder="未入力">
-      </div>`;
-    } else {
-      html += `<div class="breakdown-row"><span>${calc.laborMode}</span><span>¥${calc.labor.toLocaleString()}</span></div>`;
-    }
-    html += `<div class="breakdown-row"><span>合計(税抜)</span><span>¥${calc.total.toLocaleString()}</span></div>
+    html += `<div class="detail-block"><p class="detail-label">作業工賃 ／ ${TIER_META[priceTier].label}</p>
+      <div class="breakdown-row"><span>${calc.laborMode}</span><span>¥${calc.labor.toLocaleString()}</span></div>
+      <div class="breakdown-row"><span>合計(税抜)</span><span>¥${calc.total.toLocaleString()}</span></div>
     </div>`;
-
-    if (editMode && hasOverride(item.id)) {
-      html += `<div class="detail-block"><span class="reset-link" data-reset="${item.id}">この機種の編集をリセット</span></div>`;
-    }
 
     if (item.notice) {
       html += `<div class="detail-block"><p class="detail-label">注意事項</p>`;
@@ -7271,7 +8222,7 @@ try{
       row.onclick = (e) => {
         e.stopPropagation();
         if (row.classList.contains('unavailable')) return;
-        if (e.target.closest('.part-tag') || e.target.closest('.price-input')) return;
+        if (e.target.closest('.part-tag')) return;
         const role = row.dataset.role;
         partState[item.id][role] = !partState[item.id][role];
         renderCards();
@@ -7292,32 +8243,13 @@ try{
         }
       };
     });
-    detailEl.querySelectorAll('.price-input').forEach(input => {
-      input.onclick = (e) => e.stopPropagation();
-      input.onfocus = () => { input.value = input.value.replace(/[^0-9]/g, ''); };
-      input.onchange = (e) => {
-        e.stopPropagation();
-        const digits = input.value.replace(/[^0-9]/g, '');
-        setOverride(item.id, input.dataset.field, digits);
-        renderCards();
-        updateSelectionBar();
-      };
-    });
-    const resetLink = detailEl.querySelector('.reset-link');
-    if (resetLink) {
-      resetLink.onclick = (e) => {
-        e.stopPropagation();
-        resetOverrides(resetLink.dataset.reset);
-        renderCards();
-        updateSelectionBar();
-      };
-    }
   }
 
   function updateSelectionBar(){
-    if (!openId) {
+    if (editMode || !openId) {
       selectionBarEl.classList.remove('show');
       document.querySelector('.main').classList.remove('has-bottom-bar');
+      document.querySelector('.main').style.paddingBottom = '';
       return;
     }
     const item = liftData.find(d => d.id === openId);
@@ -7329,6 +8261,165 @@ try{
     document.getElementById('ct-sbPriceTax').textContent = `税込目安 ¥${Math.floor(calc.total * 1.1).toLocaleString()}`;
     selectionBarEl.classList.add('show');
     document.querySelector('.main').classList.add('has-bottom-bar');
+  }
+
+  // ==================== edit mode: spreadsheet-style view ====================
+  function renderEditView(){
+    const items = getOrderedData();
+    resultCountEl.textContent = items.length + ' 件（編集モード）';
+    cardAreaEl.classList.add('single-col');
+
+    function laborCell(group, tier, field, placeholder){
+      const eff = getEffectiveLabor(group, tier);
+      const v = eff[field];
+      return `<input type="text" inputmode="numeric" class="cell-input labor-cell-input" data-group="${group}" data-tier="${tier}" data-field="${field}" value="${v === null || v === undefined ? '' : v.toLocaleString()}" placeholder="${placeholder}">`;
+    }
+
+    const laborRows = LABOR_GROUPS.map(g => {
+      const edited = hasLaborOverrideRow(g);
+      return `<tr class="${edited ? 'edited' : ''}">
+        <td><span class="cell-code">${g}</span></td>
+        <td>${laborCell(g,'nss','laborSubOnly','未入力')}</td>
+        <td>${laborCell(g,'dp','laborSubOnly','未入力')}</td>
+        <td>${laborCell(g,'lp','laborSubOnly','未入力')}</td>
+        <td>${laborCell(g,'nss','laborBoth','未入力')}</td>
+        <td>${laborCell(g,'dp','laborBoth','未入力')}</td>
+        <td>${laborCell(g,'lp','laborBoth','未入力')}</td>
+        <td><span class="cell-reset ${edited ? '' : 'disabled'}" data-reset-labor-row="${g}">リセット</span></td>
+      </tr>`;
+    }).join('');
+
+    function priceCell(item, id, field, placeholder){
+      const v = item[field];
+      return `<input type="text" inputmode="numeric" class="cell-input" data-id="${id}" data-field="${field}" value="${v === null || v === undefined ? '' : v.toLocaleString()}" placeholder="${placeholder}">`;
+    }
+
+    const itemRows = items.map(rawItem => {
+      const item = getEffective(rawItem);
+      const edited = hasOverride(item.id);
+      const mainMissing = (item.mainPartNo === '-' || item.mainPartNo === '番号なし');
+      const subMissing = (item.subPartNo === '-' || item.subPartNo === '番号なし');
+      const mainPh = mainMissing ? '価格未設定' : '未入力';
+      const subPh = subMissing ? '価格未設定' : '未入力';
+      return `<tr data-id="${item.id}" class="${edited ? 'edited' : ''}">
+        <td class="drag-col"><span class="drag-handle" data-id="${item.id}" title="ドラッグして並び替え">&#9776;</span></td>
+        <td><span class="cell-code">${item.type}</span></td>
+        <td style="font-weight:600;white-space:nowrap;">${item.model}<span class="cell-code" style="display:block;">${item.spec.join(' / ')}</span></td>
+        <td><span class="cell-code">${item.productNo}</span></td>
+        <td><span class="cell-code">${item.mainPartNo}</span></td>
+        <td>${priceCell(item, item.id, 'mainNssPrice', mainPh)}</td>
+        <td>${priceCell(item, item.id, 'mainDpPrice', mainPh)}</td>
+        <td>${priceCell(item, item.id, 'mainLpPrice', mainPh)}</td>
+        <td><span class="cell-code">${item.subPartNo}</span></td>
+        <td>${priceCell(item, item.id, 'subNssPrice', subPh)}</td>
+        <td>${priceCell(item, item.id, 'subDpPrice', subPh)}</td>
+        <td>${priceCell(item, item.id, 'subLpPrice', subPh)}</td>
+        <td><span class="cell-reset ${edited ? '' : 'disabled'}" data-reset="${item.id}">リセット</span></td>
+      </tr>`;
+    }).join('');
+
+    cardAreaEl.innerHTML = `
+      <p class="edit-hint">作業工賃・部品価格ともNSS(原価)・D/P・L/Pの3価格帯ごとに編集できます。作業工賃は「4柱」「2柱・門型2柱」の2グループ共通です。左端の &#9776; をドラッグして機種の並び替えができます。</p>
+
+      <p class="detail-label" style="margin:0 0 6px;">作業工賃（グループ共通・価格帯ごと）</p>
+      <div class="edit-table-wrap" style="margin-bottom:20px;">
+        <table class="edit-table">
+          <thead><tr>
+            <th rowspan="2" style="vertical-align:bottom;">グループ</th>
+            <th colspan="3">サブのみ交換工賃</th>
+            <th colspan="3">メイン＋サブ交換工賃</th>
+            <th rowspan="2"></th>
+          </tr>
+          <tr><th>NSS</th><th>DP</th><th>LP</th><th>NSS</th><th>DP</th><th>LP</th></tr>
+          </thead>
+          <tbody>${laborRows}</tbody>
+        </table>
+      </div>
+
+      <p class="detail-label" style="margin:0 0 6px;">機種別 部品価格（NSS価格(原価) ／ D・P・S・P ／ L・P・U・P）</p>
+      <div class="edit-table-wrap">
+        <table class="edit-table">
+          <thead><tr>
+            <th class="drag-col"></th><th>タイプ</th><th>型式</th><th>商品番号</th>
+            <th>駆動側品番</th><th>駆動側NSS</th><th>駆動側DP</th><th>駆動側LP</th>
+            <th>従動側品番</th><th>従動側NSS</th><th>従動側DP</th><th>従動側LP</th><th></th>
+          </tr></thead>
+          <tbody>${itemRows || `<tr><td colspan="13" style="text-align:center;padding:30px;color:var(--ink-faint);">該当する項目がありません</td></tr>`}</tbody>
+        </table>
+      </div>
+    `;
+
+    cardAreaEl.querySelectorAll('.labor-cell-input').forEach(input => {
+      input.addEventListener('focus', () => { input.value = input.value.replace(/[^0-9]/g, ''); });
+      input.addEventListener('change', () => {
+        setLaborOverride(input.dataset.group, input.dataset.tier, input.dataset.field, input.value);
+        renderEditView();
+      });
+    });
+    cardAreaEl.querySelectorAll('[data-reset-labor-row]').forEach(link => {
+      if (link.classList.contains('disabled')) return;
+      link.addEventListener('click', () => {
+        const g = link.dataset.resetLaborRow;
+        TIER_ORDER.forEach(t => resetLaborOverrideCell(g, t));
+        renderEditView();
+      });
+    });
+    cardAreaEl.querySelectorAll('.cell-input:not(.labor-cell-input)').forEach(input => {
+      input.addEventListener('focus', () => { input.value = input.value.replace(/[^0-9]/g, ''); });
+      input.addEventListener('change', () => {
+        setOverride(input.dataset.id, input.dataset.field, input.value);
+        renderEditView();
+      });
+    });
+    cardAreaEl.querySelectorAll('.cell-reset[data-reset]').forEach(link => {
+      if (link.classList.contains('disabled')) return;
+      link.addEventListener('click', () => {
+        resetOverrides(link.dataset.reset);
+        renderEditView();
+      });
+    });
+    wireDragHandles();
+  }
+
+  // ---- drag-to-reorder (pointer events; works for mouse and touch) ----
+  function wireDragHandles(){
+    cardAreaEl.querySelectorAll('.drag-handle').forEach(handle => {
+      handle.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        startDrag(handle.dataset.id);
+      });
+    });
+  }
+  let draggingId = null;
+  function startDrag(id){
+    draggingId = id;
+    const row = cardAreaEl.querySelector(`tr[data-id="${id}"]`);
+    if (row) row.classList.add('dragging');
+    document.addEventListener('pointermove', onDragMove);
+    document.addEventListener('pointerup', onDragEnd);
+    document.addEventListener('pointercancel', onDragEnd);
+  }
+  function onDragMove(e){
+    if (!draggingId) return;
+    const targetEl = document.elementFromPoint(e.clientX, e.clientY);
+    const targetRow = targetEl && targetEl.closest && targetEl.closest('tr[data-id]');
+    if (!targetRow) return;
+    const targetId = targetRow.dataset.id;
+    if (targetId === draggingId) return;
+    moveInOrder(draggingId, targetId);
+    renderEditView();
+    const newRow = cardAreaEl.querySelector(`tr[data-id="${draggingId}"]`);
+    if (newRow) newRow.classList.add('dragging');
+  }
+  function onDragEnd(){
+    if (!draggingId) return;
+    const row = cardAreaEl.querySelector(`tr[data-id="${draggingId}"]`);
+    if (row) row.classList.remove('dragging');
+    draggingId = null;
+    saveOrder();
+    document.removeEventListener('pointermove', onDragMove);
+    document.removeEventListener('pointerup', onDragEnd);
+    document.removeEventListener('pointercancel', onDragEnd);
   }
 
   function renderAll(){
@@ -7358,9 +8449,14 @@ try{
   function renderEditToggle(){
     editToggleBtn.classList.toggle('active', editMode);
     editToggleBtn.textContent = editMode ? '編集モード: ON' : '編集モード';
+    tierRowEl.style.display = editMode ? 'none' : '';
+    filterToggleBtn.style.display = editMode ? 'none' : '';
+    filterPanelEl.style.display = editMode ? 'none' : '';
+    searchRowEl.style.display = editMode ? 'none' : '';
   }
   editToggleBtn.onclick = () => {
     editMode = !editMode;
+    openId = null;
     renderEditToggle();
     renderCards();
     updateSelectionBar();
@@ -7383,29 +8479,1019 @@ try{
 
 <script>
 (function(){
-  var STORAGE_KEY = 'activeAppTab_v1';
-  var workRateApp = document.getElementById('workRateApp');
-  var chainApp = document.getElementById('chainApp');
-  var btnWorkRate = document.getElementById('switchToWorkRate');
-  var btnChain = document.getElementById('switchToChain');
+
+  const inspectionData =
+{
+  "individual": [
+    {
+      "code": "IM9011100",
+      "name": "ブレーキテスター一般",
+      "nssPrice": 6800,
+      "dpPrice": 8500,
+      "lpPrice": 9400
+    },
+    {
+      "code": "IM9012100",
+      "name": "速度計試験機",
+      "nssPrice": 2900,
+      "dpPrice": 3600,
+      "lpPrice": 4000
+    },
+    {
+      "code": "IM9013100",
+      "name": "サイドスリップテスター",
+      "nssPrice": 3300,
+      "dpPrice": 4100,
+      "lpPrice": 4600
+    },
+    {
+      "code": "IM9014100",
+      "name": "前照灯試験機一般",
+      "nssPrice": 3300,
+      "dpPrice": 4100,
+      "lpPrice": 4600
+    },
+    {
+      "code": "IM9014300",
+      "name": "前照灯試験機自動方式",
+      "nssPrice": 11300,
+      "dpPrice": 14100,
+      "lpPrice": 15600
+    },
+    {
+      "code": "IM9015100",
+      "name": "ＣＯテスター",
+      "nssPrice": 2900,
+      "dpPrice": 3600,
+      "lpPrice": 4000
+    },
+    {
+      "code": "IM9015500",
+      "name": "ＨＣテスター２レンジ",
+      "nssPrice": 2900,
+      "dpPrice": 3600,
+      "lpPrice": 4000
+    },
+    {
+      "code": "IM9015700",
+      "name": "ＨＣテスター４レンジ",
+      "nssPrice": 4500,
+      "dpPrice": 5700,
+      "lpPrice": 6300
+    },
+    {
+      "code": "IM9915200",
+      "name": "ＣＯ／ＨＣ複合試験機２レンジ",
+      "nssPrice": 5800,
+      "dpPrice": 7200,
+      "lpPrice": 8000
+    },
+    {
+      "code": "IM9915400",
+      "name": "ＣＯ／ＨＣ複合試験機４レンジ",
+      "nssPrice": 7500,
+      "dpPrice": 9300,
+      "lpPrice": 10300
+    },
+    {
+      "code": "IM9017100",
+      "name": "ＤＳテスター",
+      "nssPrice": 2500,
+      "dpPrice": 3100,
+      "lpPrice": 3500
+    },
+    {
+      "code": "IM9015900",
+      "name": "オパシメータ",
+      "nssPrice": 2300,
+      "dpPrice": 2900,
+      "lpPrice": 3200
+    },
+    {
+      "code": "IM9017500",
+      "name": "音量計",
+      "nssPrice": 1400,
+      "dpPrice": 1800,
+      "lpPrice": 2000
+    },
+    {
+      "code": "IM9018000",
+      "name": "コンピューターシステム加算",
+      "nssPrice": 10900,
+      "dpPrice": 13600,
+      "lpPrice": 15000
+    },
+    {
+      "code": "IM9000200",
+      "name": "校正基本料",
+      "nssPrice": 7000,
+      "dpPrice": 8800,
+      "lpPrice": 8800
+    }
+  ],
+  "combo": [
+    {
+      "code": "IM9900100",
+      "comboCode": "ABSHXDS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 34100,
+      "dpPrice": 30600,
+      "nssPrice": 24600
+    },
+    {
+      "code": "IM9900400",
+      "comboCode": "ABSHX4DS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 36400,
+      "dpPrice": 32700,
+      "nssPrice": 26200
+    },
+    {
+      "code": "IM9900500",
+      "comboCode": "ABSHXOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 33800,
+      "dpPrice": 30400,
+      "nssPrice": 24400
+    },
+    {
+      "code": "IM9900600",
+      "comboCode": "ABSHXDSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 37300,
+      "dpPrice": 33500,
+      "nssPrice": 26900
+    },
+    {
+      "code": "IM9900700",
+      "comboCode": "ABSHX4OP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 36100,
+      "dpPrice": 32500,
+      "nssPrice": 26000
+    },
+    {
+      "code": "IM9900800",
+      "comboCode": "ABSHX4DSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 39600,
+      "dpPrice": 35600,
+      "nssPrice": 28500
+    },
+    {
+      "code": "IM9901200",
+      "comboCode": "ABSHXDS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 45100,
+      "dpPrice": 40600,
+      "nssPrice": 32600
+    },
+    {
+      "code": "IM9901300",
+      "comboCode": "ABSHXOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 44800,
+      "dpPrice": 40400,
+      "nssPrice": 32400
+    },
+    {
+      "code": "IM9901400",
+      "comboCode": "ABSHXDSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 48300,
+      "dpPrice": 43500,
+      "nssPrice": 34900
+    },
+    {
+      "code": "IM9901500",
+      "comboCode": "ABSHX4DS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 47400,
+      "dpPrice": 42700,
+      "nssPrice": 34200
+    },
+    {
+      "code": "IM9901600",
+      "comboCode": "ABSHX4OP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 47100,
+      "dpPrice": 42500,
+      "nssPrice": 34000
+    },
+    {
+      "code": "IM9901700",
+      "comboCode": "ABSHX4DSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 50600,
+      "dpPrice": 45600,
+      "nssPrice": 36500
+    },
+    {
+      "code": "IM9902200",
+      "comboCode": "ABSHX",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)"
+      ],
+      "lpPrice": 30600,
+      "dpPrice": 27500,
+      "nssPrice": 22100
+    },
+    {
+      "code": "IM9902300",
+      "comboCode": "ABSHX4",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)"
+      ],
+      "lpPrice": 32900,
+      "dpPrice": 29600,
+      "nssPrice": 23700
+    },
+    {
+      "code": "IM9903100",
+      "comboCode": "ABSHXDS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 34100,
+      "dpPrice": 30600,
+      "nssPrice": 24600
+    },
+    {
+      "code": "IM9903200",
+      "comboCode": "ABSHXOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 33800,
+      "dpPrice": 30400,
+      "nssPrice": 24400
+    },
+    {
+      "code": "IM9903300",
+      "comboCode": "ABSHXDSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 37300,
+      "dpPrice": 33500,
+      "nssPrice": 26900
+    },
+    {
+      "code": "IM9903400",
+      "comboCode": "ABSHX4DS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 36400,
+      "dpPrice": 32700,
+      "nssPrice": 26300
+    },
+    {
+      "code": "IM9903500",
+      "comboCode": "ABSHX4OP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 36100,
+      "dpPrice": 32500,
+      "nssPrice": 26100
+    },
+    {
+      "code": "IM9903600",
+      "comboCode": "ABSHX4DSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 39600,
+      "dpPrice": 35600,
+      "nssPrice": 28600
+    },
+    {
+      "code": "IM9904100",
+      "comboCode": "ABSHXDS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 45100,
+      "dpPrice": 40600,
+      "nssPrice": 32600
+    },
+    {
+      "code": "IM9904200",
+      "comboCode": "ABSHXOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 44800,
+      "dpPrice": 40400,
+      "nssPrice": 32400
+    },
+    {
+      "code": "IM9904300",
+      "comboCode": "ABSHXDSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 48300,
+      "dpPrice": 43500,
+      "nssPrice": 34900
+    },
+    {
+      "code": "IM9904400",
+      "comboCode": "ABSHX4DS",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)"
+      ],
+      "lpPrice": 47400,
+      "dpPrice": 42700,
+      "nssPrice": 34300
+    },
+    {
+      "code": "IM9904500",
+      "comboCode": "ABSHX4OP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "オパシメータ"
+      ],
+      "lpPrice": 47100,
+      "dpPrice": 42500,
+      "nssPrice": 34100
+    },
+    {
+      "code": "IM9904600",
+      "comboCode": "ABSHX4DSOP",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)",
+        "黒煙(DS)",
+        "オパシメータ"
+      ],
+      "lpPrice": 50600,
+      "dpPrice": 45600,
+      "nssPrice": 36600
+    },
+    {
+      "code": "IM9903700",
+      "comboCode": "ABSHX",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(2レンジ)"
+      ],
+      "lpPrice": 30600,
+      "dpPrice": 27500,
+      "nssPrice": 22100
+    },
+    {
+      "code": "IM9904700",
+      "comboCode": "ABSHX4",
+      "equipment": [
+        "サイドスリップ",
+        "ブレーキ",
+        "スピード",
+        "ヘッドライト",
+        "CO・HC複合(4レンジ)"
+      ],
+      "lpPrice": 43900,
+      "dpPrice": 39600,
+      "nssPrice": 31800
+    }
+  ]
+};
+
+(function(){
+  let mode = 'combo'; // 'combo' | 'individual'
+  let tier = 'nssPrice'; // 'nssPrice' | 'dpPrice' | 'lpPrice'
+  let editMode = false;
+  const activeEquip = new Set();
+  let searchQuery = '';
+  const selectedCodes = new Set();
+
+  const TIER_LABELS = { nssPrice: 'NSS価格', dpPrice: 'D/P・S/P', lpPrice: 'L/P・U/P' };
+
+  // ---- overrides (persisted edits) ----
+  const OVERRIDES_KEY = 'inspToolOverrides_v1';
+  function loadOverrides(){
+    try { return JSON.parse(localStorage.getItem(OVERRIDES_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveOverrides(){
+    try { localStorage.setItem(OVERRIDES_KEY, JSON.stringify(overrides)); }
+    catch(e){}
+  }
+  const overrides = loadOverrides(); // code -> { name?, nssPrice?, dpPrice?, lpPrice? }
+
+  function getEffective(item){
+    const o = overrides[item.code];
+    if (!o) return item;
+    const eff = Object.assign({}, item);
+    if (o.name !== undefined && o.name !== null) eff.name = o.name;
+    ['nssPrice','dpPrice','lpPrice'].forEach(f => {
+      if (o[f] !== undefined && o[f] !== null) eff[f] = o[f];
+    });
+    return eff;
+  }
+  function setOverride(code, field, value){
+    if (!overrides[code]) overrides[code] = {};
+    if (field === 'name') {
+      overrides[code].name = (value === '') ? null : value;
+    } else {
+      const digits = String(value).replace(/[^0-9]/g, '');
+      overrides[code][field] = (digits === '') ? null : Number(digits);
+    }
+    saveOverrides();
+  }
+  function resetOverride(code){
+    delete overrides[code];
+    saveOverrides();
+  }
+  function hasOverride(code){
+    return !!overrides[code] && Object.values(overrides[code]).some(v => v !== undefined && v !== null);
+  }
+
+  // ---- custom row order (persisted, per mode) ----
+  const ORDER_KEY = 'inspToolOrder_v1';
+  function loadOrder(){
+    try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveOrder(){
+    try { localStorage.setItem(ORDER_KEY, JSON.stringify(orderState)); }
+    catch(e){}
+  }
+  const orderState = loadOrder(); // { combo: [codes...], individual: [codes...] }
+
+  function getOrderedList(m){
+    const source = m === 'combo' ? inspectionData.combo : inspectionData.individual;
+    const byCode = {};
+    source.forEach(it => { byCode[it.code] = it; });
+    let order = orderState[m];
+    if (!order || !order.length) {
+      order = source.map(it => it.code);
+    } else {
+      // include any codes missing from a stale saved order (new data added later)
+      const known = new Set(order);
+      source.forEach(it => { if (!known.has(it.code)) order.push(it.code); });
+      // drop any codes no longer present in the data
+      order = order.filter(c => byCode[c]);
+    }
+    orderState[m] = order;
+    return order.map(c => byCode[c]);
+  }
+  function moveInOrder(m, code, targetCode){
+    const order = orderState[m];
+    if (!order) return;
+    const fromIdx = order.indexOf(code);
+    const toIdx = order.indexOf(targetCode);
+    if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return;
+    order.splice(fromIdx, 1);
+    order.splice(toIdx, 0, code);
+    saveOrder();
+  }
+
+  const mainEl = document.querySelector('#inspectionApp .main');
+  const modeComboBtn = document.getElementById('insp-modeCombo');
+  const modeIndividualBtn = document.getElementById('insp-modeIndividual');
+  const tierRow = document.querySelector('#inspectionApp .tier-row');
+  const tierBtns = document.querySelectorAll('#inspectionApp .tier-btn');
+  const comboFilterWrap = document.getElementById('insp-comboFilterWrap');
+  const eqTabsEl = document.getElementById('insp-eqTabs');
+  const filterToggleBtn = document.getElementById('insp-filterToggleBtn');
+  const filterPanelEl = document.getElementById('insp-filterPanel');
+  const filterCountEl = document.getElementById('insp-filterCount');
+  const searchInput = document.getElementById('insp-searchInput');
+  const resultCountEl = document.getElementById('insp-resultCount');
+  const cardAreaEl = document.getElementById('insp-cardArea');
+  const selectionBarEl = document.getElementById('insp-selectionBar');
+  const sbCountEl = document.getElementById('insp-sbCount');
+  const sbTotalEl = document.getElementById('insp-sbTotal');
+  const sbTierLabelEl = document.getElementById('insp-sbTierLabel');
+  const editToggleBtn = document.getElementById('insp-editToggleBtn');
+
+  const noticeToggle = document.getElementById('insp-noticeToggle');
+  const noticePanel = document.getElementById('insp-noticePanel');
+  noticeToggle.onclick = () => {
+    const open = noticePanel.classList.toggle('open');
+    noticeToggle.classList.toggle('open', open);
+  };
+
+  filterToggleBtn.onclick = () => {
+    const open = filterPanelEl.classList.toggle('open');
+    filterToggleBtn.classList.toggle('open', open);
+  };
+
+  function setMode(m){
+    mode = m;
+    modeComboBtn.classList.toggle('active', m === 'combo');
+    modeIndividualBtn.classList.toggle('active', m === 'individual');
+    comboFilterWrap.style.display = (m === 'combo' && !editMode) ? '' : 'none';
+    renderAll();
+    updateSelectionBar();
+  }
+  modeComboBtn.onclick = () => setMode('combo');
+  modeIndividualBtn.onclick = () => setMode('individual');
+
+  tierBtns.forEach(btn => {
+    btn.onclick = () => {
+      tier = btn.dataset.tier;
+      tierBtns.forEach(b => b.classList.toggle('active', b === btn));
+      renderCards();
+      updateSelectionBar();
+    };
+  });
+
+  editToggleBtn.onclick = () => {
+    editMode = !editMode;
+    editToggleBtn.classList.toggle('active', editMode);
+    editToggleBtn.textContent = editMode ? '編集モード: ON' : '編集モード';
+    tierRow.style.display = editMode ? 'none' : '';
+    document.getElementById('insp-searchRow').style.display = editMode ? 'none' : '';
+    comboFilterWrap.style.display = (mode === 'combo' && !editMode) ? '' : 'none';
+    renderCards();
+    updateSelectionBar();
+  };
+
+  function renderEquipTabs(){
+    const allEquip = new Set();
+    inspectionData.combo.forEach(item => item.equipment.forEach(e => allEquip.add(e)));
+    const order = ['サイドスリップ','ブレーキ','スピード','ヘッドライト','CO・HC複合(2レンジ)','CO・HC複合(4レンジ)','黒煙(DS)','オパシメータ'];
+    eqTabsEl.innerHTML = '';
+    order.filter(e => allEquip.has(e)).forEach(e => {
+      const chip = document.createElement('div');
+      chip.className = 'tab-chip' + (activeEquip.has(e) ? ' active' : '');
+      chip.textContent = e;
+      chip.onclick = () => {
+        activeEquip.has(e) ? activeEquip.delete(e) : activeEquip.add(e);
+        renderFilterCount();
+        renderCards();
+      };
+      eqTabsEl.appendChild(chip);
+    });
+    renderFilterCount();
+  }
+  function renderFilterCount(){
+    filterCountEl.style.display = activeEquip.size > 0 ? 'inline-flex' : 'none';
+    filterCountEl.textContent = activeEquip.size;
+  }
+
+  function getFilteredCombo(){
+    return getOrderedList('combo').filter(item => {
+      if (activeEquip.size > 0 && ![...activeEquip].every(e => item.equipment.includes(e))) return false;
+      if (searchQuery) {
+        const hay = `${item.code} ${item.comboCode} ${item.equipment.join(' ')}`.toLowerCase();
+        if (!hay.includes(searchQuery)) return false;
+      }
+      return true;
+    });
+  }
+  function getFilteredIndividual(){
+    return getOrderedList('individual').filter(item => {
+      if (searchQuery) {
+        const hay = `${item.code} ${item.name}`.toLowerCase();
+        if (!hay.includes(searchQuery)) return false;
+      }
+      return true;
+    });
+  }
+
+  function fmtYen(v){ return `¥${v.toLocaleString()}`; }
+
+  function renderCards(){
+    if (editMode) { renderEditTable(); return; }
+
+    const items = mode === 'combo' ? getFilteredCombo() : getFilteredIndividual();
+    resultCountEl.textContent = items.length + ' 件';
+    cardAreaEl.innerHTML = '';
+    cardAreaEl.classList.remove('single-col');
+
+    if (items.length === 0) {
+      cardAreaEl.innerHTML = `<div class="empty-state"><p class="disp">該当する項目が見つかりません</p><p>検索キーワードや絞り込みを変えてお試しください。</p></div>`;
+      return;
+    }
+
+    items.forEach(rawItem => {
+      const item = getEffective(rawItem);
+      const card = document.createElement('div');
+
+      if (mode === 'combo') {
+        card.className = 'card';
+        const tagsHtml = item.equipment.map(e => `<span class="eq-chip">${e}</span>`).join('');
+        card.innerHTML = `
+          <div class="card-left">
+            <span class="card-code"><span class="code-tag" data-copy="${item.code}">${item.code}<span class="copy-icon">&#128203;</span></span><span class="combo-code-label">／ ${item.comboCode}</span></span>
+            <p class="card-title">車検ライン点検一式</p>
+            <div class="card-tags">${tagsHtml}</div>
+          </div>
+          <div class="card-right">
+            <span class="price-tier-label">${TIER_LABELS[tier]}</span><br>
+            <span class="price-main">${fmtYen(item[tier])}</span>
+          </div>
+        `;
+      } else {
+        const isSelected = selectedCodes.has(item.code);
+        card.className = 'card selectable' + (isSelected ? ' selected' : '');
+        card.dataset.code = item.code;
+        card.innerHTML = `
+          <div class="card-left-row">
+            <div class="card-check">&#10003;</div>
+            <div class="card-left">
+              <span class="card-code"><span class="code-tag" data-copy="${item.code}">${item.code}<span class="copy-icon">&#128203;</span></span></span>
+              <p class="card-title">${item.name}</p>
+            </div>
+          </div>
+          <div class="card-right">
+            <span class="price-tier-label">${TIER_LABELS[tier]}</span><br>
+            <span class="price-main">${fmtYen(item[tier])}</span>
+          </div>
+        `;
+        card.onclick = (e) => {
+          if (e.target.closest('.code-tag')) return;
+          selectedCodes.has(item.code) ? selectedCodes.delete(item.code) : selectedCodes.add(item.code);
+          renderCards();
+          updateSelectionBar();
+        };
+      }
+      cardAreaEl.appendChild(card);
+    });
+  }
+
+  function renderEditTable(){
+    const items = mode === 'combo' ? getOrderedList('combo') : getOrderedList('individual');
+    resultCountEl.textContent = items.length + ' 件（編集モード）';
+    cardAreaEl.classList.add('single-col');
+
+    let head, bodyRows;
+    if (mode === 'combo') {
+      head = `<tr><th class="drag-col"></th><th>コード</th><th>機器構成</th><th>含まれる機器</th><th>NSS価格</th><th>D/P・S/P</th><th>L/P・U/P</th><th></th></tr>`;
+      bodyRows = items.map(rawItem => {
+        const item = getEffective(rawItem);
+        const edited = hasOverride(item.code);
+        const tagsHtml = item.equipment.map(e => `<span class="eq-chip">${e}</span>`).join('');
+        return `<tr data-code="${item.code}" class="${edited ? 'edited' : ''}">
+          <td class="drag-col"><span class="drag-handle" data-code="${item.code}" title="ドラッグして並び替え">&#9776;</span></td>
+          <td><span class="cell-code">${item.code}</span></td>
+          <td><span class="cell-code">${item.comboCode}</span></td>
+          <td><div class="cell-tags">${tagsHtml}</div></td>
+          <td><input type="text" inputmode="numeric" class="cell-input" data-code="${item.code}" data-field="nssPrice" value="${item.nssPrice.toLocaleString()}"></td>
+          <td><input type="text" inputmode="numeric" class="cell-input" data-code="${item.code}" data-field="dpPrice" value="${item.dpPrice.toLocaleString()}"></td>
+          <td><input type="text" inputmode="numeric" class="cell-input" data-code="${item.code}" data-field="lpPrice" value="${item.lpPrice.toLocaleString()}"></td>
+          <td><span class="cell-reset ${edited ? '' : 'disabled'}" data-reset="${item.code}">リセット</span></td>
+        </tr>`;
+      }).join('');
+    } else {
+      head = `<tr><th class="drag-col"></th><th>コード</th><th>作業内容</th><th>NSS価格</th><th>D/P・S/P</th><th>L/P・U/P</th><th></th></tr>`;
+      bodyRows = items.map(rawItem => {
+        const item = getEffective(rawItem);
+        const edited = hasOverride(item.code);
+        return `<tr data-code="${item.code}" class="${edited ? 'edited' : ''}">
+          <td class="drag-col"><span class="drag-handle" data-code="${item.code}" title="ドラッグして並び替え">&#9776;</span></td>
+          <td><span class="cell-code">${item.code}</span></td>
+          <td><input type="text" class="cell-input name-input" data-code="${item.code}" data-field="name" value="${item.name}"></td>
+          <td><input type="text" inputmode="numeric" class="cell-input" data-code="${item.code}" data-field="nssPrice" value="${item.nssPrice.toLocaleString()}"></td>
+          <td><input type="text" inputmode="numeric" class="cell-input" data-code="${item.code}" data-field="dpPrice" value="${item.dpPrice.toLocaleString()}"></td>
+          <td><input type="text" inputmode="numeric" class="cell-input" data-code="${item.code}" data-field="lpPrice" value="${item.lpPrice.toLocaleString()}"></td>
+          <td><span class="cell-reset ${edited ? '' : 'disabled'}" data-reset="${item.code}">リセット</span></td>
+        </tr>`;
+      }).join('');
+    }
+
+    cardAreaEl.innerHTML = `
+      <p class="edit-hint">セルをクリックして直接編集、左端の &#9776; をドラッグして並び替えできます。変更はこの端末のブラウザに保存されます。</p>
+      <div class="edit-table-wrap">
+        <table class="edit-table">
+          <thead>${head}</thead>
+          <tbody>${bodyRows || `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--ink-faint);">該当する項目がありません</td></tr>`}</tbody>
+        </table>
+      </div>
+    `;
+
+    cardAreaEl.querySelectorAll('.cell-input').forEach(input => {
+      input.addEventListener('focus', () => {
+        if (input.dataset.field !== 'name') input.value = input.value.replace(/[^0-9]/g, '');
+      });
+      input.addEventListener('change', () => {
+        setOverride(input.dataset.code, input.dataset.field, input.value);
+        renderEditTable();
+        updateSelectionBar();
+      });
+    });
+    cardAreaEl.querySelectorAll('.cell-reset').forEach(link => {
+      if (link.classList.contains('disabled')) return;
+      link.addEventListener('click', () => {
+        resetOverride(link.dataset.reset);
+        renderEditTable();
+        updateSelectionBar();
+      });
+    });
+    wireDragHandles();
+  }
+
+  // ---- drag-to-reorder (pointer events; works for mouse and touch) ----
+  function wireDragHandles(){
+    cardAreaEl.querySelectorAll('.drag-handle').forEach(handle => {
+      handle.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        startDrag(handle.dataset.code);
+      });
+    });
+  }
+
+  let draggingCode = null;
+  function startDrag(code){
+    draggingCode = code;
+    const row = cardAreaEl.querySelector(`tr[data-code="${code}"]`);
+    if (row) row.classList.add('dragging');
+    document.addEventListener('pointermove', onDragMove);
+    document.addEventListener('pointerup', onDragEnd);
+    document.addEventListener('pointercancel', onDragEnd);
+  }
+  function onDragMove(e){
+    if (!draggingCode) return;
+    const targetEl = document.elementFromPoint(e.clientX, e.clientY);
+    const targetRow = targetEl && targetEl.closest && targetEl.closest('tr[data-code]');
+    if (!targetRow) return;
+    const targetCode = targetRow.dataset.code;
+    if (targetCode === draggingCode) return;
+    moveInOrder(mode, draggingCode, targetCode);
+    renderEditTable();
+    const newRow = cardAreaEl.querySelector(`tr[data-code="${draggingCode}"]`);
+    if (newRow) newRow.classList.add('dragging');
+  }
+  function onDragEnd(){
+    if (!draggingCode) return;
+    const row = cardAreaEl.querySelector(`tr[data-code="${draggingCode}"]`);
+    if (row) row.classList.remove('dragging');
+    draggingCode = null;
+    saveOrder();
+    document.removeEventListener('pointermove', onDragMove);
+    document.removeEventListener('pointerup', onDragEnd);
+    document.removeEventListener('pointercancel', onDragEnd);
+  }
+
+  function updateSelectionBar(){
+    if (editMode || mode !== 'individual' || selectedCodes.size === 0) {
+      selectionBarEl.classList.remove('show');
+      mainEl.classList.remove('has-bottom-bar');
+      mainEl.style.paddingBottom = '';
+      return;
+    }
+    const selectedItems = inspectionData.individual.filter(i => selectedCodes.has(i.code)).map(getEffective);
+    const total = selectedItems.reduce((sum, i) => sum + i[tier], 0);
+    sbCountEl.innerHTML = `<b>${selectedCodes.size}</b>件選択中`;
+    sbTierLabelEl.textContent = `合計(${TIER_LABELS[tier]})`;
+    sbTotalEl.textContent = fmtYen(total);
+    selectionBarEl.classList.add('show');
+    mainEl.classList.add('has-bottom-bar');
+    requestAnimationFrame(() => {
+      const barHeight = selectionBarEl.getBoundingClientRect().height;
+      mainEl.style.paddingBottom = (barHeight + 32) + 'px';
+    });
+  }
+
+  document.getElementById('insp-sbClear').onclick = () => {
+    selectedCodes.clear();
+    renderCards();
+    updateSelectionBar();
+  };
+
+  window.addEventListener('resize', () => {
+    if (selectionBarEl.classList.contains('show')) {
+      requestAnimationFrame(() => {
+        const barHeight = selectionBarEl.getBoundingClientRect().height;
+        mainEl.style.paddingBottom = (barHeight + 32) + 'px';
+      });
+    }
+  });
+
+  function renderAll(){
+    renderEquipTabs();
+    renderCards();
+  }
+
+  cardAreaEl.addEventListener('click', (e) => {
+    const tag = e.target.closest('.code-tag');
+    if (!tag) return;
+    e.stopPropagation();
+    const text = tag.dataset.copy;
+    const flash = () => {
+      tag.classList.add('copied');
+      setTimeout(() => tag.classList.remove('copied'), 900);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(flash).catch(() => {});
+    }
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    renderCards();
+  });
+
+  const helpModalOverlay = document.getElementById('insp-helpModalOverlay');
+  document.getElementById('insp-helpBtn').onclick = () => helpModalOverlay.classList.add('open');
+  document.getElementById('insp-helpCloseBtn').onclick = () => helpModalOverlay.classList.remove('open');
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && helpModalOverlay.classList.contains('open')) {
+      helpModalOverlay.classList.remove('open');
+    }
+  });
+
+  // init
+  tierBtns[0].classList.add('active'); // NSS価格 default
+  setMode('combo');
+})();
+
+})();
+</script>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'activeAppTab_v2';
+  var apps = {
+    workRate: { el: document.getElementById('workRateApp'), btn: document.getElementById('switchToWorkRate') },
+    chain: { el: document.getElementById('chainApp'), btn: document.getElementById('switchToChain') },
+    inspection: { el: document.getElementById('inspectionApp'), btn: document.getElementById('switchToInspection') }
+  };
 
   function showApp(name){
-    var isWorkRate = name === 'workRate';
-    workRateApp.classList.toggle('active', isWorkRate);
-    chainApp.classList.toggle('active', !isWorkRate);
-    btnWorkRate.classList.toggle('active', isWorkRate);
-    btnChain.classList.toggle('active', !isWorkRate);
+    if (!apps[name]) name = 'workRate';
+    Object.keys(apps).forEach(function(key){
+      var isActive = key === name;
+      apps[key].el.classList.toggle('active', isActive);
+      apps[key].btn.classList.toggle('active', isActive);
+    });
     try { localStorage.setItem(STORAGE_KEY, name); } catch(e){}
   }
 
-  btnWorkRate.onclick = function(){ showApp('workRate'); };
-  btnChain.onclick = function(){ showApp('chain'); };
+  Object.keys(apps).forEach(function(key){
+    apps[key].btn.onclick = function(){ showApp(key); };
+  });
 
   var saved = 'workRate';
   try { saved = localStorage.getItem(STORAGE_KEY) || 'workRate'; } catch(e){}
   showApp(saved);
 })();
 </script>
+
+
 
 </body>
 </html>
